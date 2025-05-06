@@ -52,4 +52,5 @@ Route::middleware('auth')->group(function () {
 	Route::get('/checkin', [CheckinController::class, 'index'])->name('checkin');
 	Route::post('/checkin/submit', [CheckinController::class, 'submit'])->name('checkin.submit');
 	
+	Route::get('/streak', [HomeController::class, 'streak'])->name('streak');
 });

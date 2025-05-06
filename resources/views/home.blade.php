@@ -2,7 +2,22 @@
 
 @section('content')
 
-    <h5>Halo, {{ Auth::user()->name }} 👋</h5>
+    <div class="text-center mb-4">
+        <h4 class="fw-bold text-success">Welcome Back, {{ Auth::user()->name }}! 🌟</h4>
+        <p class="text-muted">Keep up the great work and stay consistent!</p>
+    </div>
+
+
+    <div class="card shadow-sm p-3">
+        <div class="card-header text-center">
+            <h5 class="mb-0">Daily Motivation</h5>
+        </div>
+        <div class="card-body text-center">
+            <blockquote class="blockquote">
+                <p class="text-warning">"{{ $dailyMotivation }}"</p>
+            </blockquote>
+        </div>
+    </div>
 
     <a href="{{ route('checkin') }}" class="btn btn-primary w-100 mt-3">Mulai Check-in Hari Ini</a>
 
@@ -23,26 +38,28 @@
         <div class="row mt-4">
             <!-- Habit Streak -->
             <div class="col-12 col-md-6 mb-3 d-flex">
-                <div class="card text-center p-2 h-100 w-100">
+
+                <div class="card shadow-sm p-2 h-100 w-100">
                     <div class="card-header bg-success text-white py-2 small">
-                        Habit Streak
+                        <h5 class="mb-0">Your Streak</h5>
                     </div>
-                    <div class="card-body py-2">
-                        <h4 class="mb-1">{{ $streak }}</h4>
-                        <p class="mb-0 small">days in a row</p>
+                    <div class="card-body text-center">
+                        <h1 class="text-success mb-1">{{ $streak }} 🔥</h1>
+                        <p class="mb-0 small text-muted">days in a row</p>
+                        <a href="{{ route('streak') }}" class="btn btn-primary btn-sm">View Streak</a>
                     </div>
                 </div>
             </div>
 
             <!-- Weekly Check-Ins -->
             <div class="col-12 col-md-6 mb-3 d-flex">
-                <div class="card text-center p-2 h-100 w-100">
+                <div class="card shadow-sm p-2 h-100 w-100">
                     <div class="card-header bg-primary text-white py-2 small">
-                        Weekly Check-Ins
+                        <h6 class="mb-0">Weekly Check-Ins</h6>
                     </div>
                     <div class="card-body py-2">
-                        <h4 class="mb-1">{{ $checkInsThisWeek }}</h4>
-                        <p class="mb-0 small">completed this week</p>
+                        <h1 class="text-success mb-1">{{ $checkInsThisWeek }} ✅</h1>
+                        <p class="mb-0 small text-muted">completed this week</p>
                     </div>
                 </div>
             </div>

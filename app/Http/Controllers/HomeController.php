@@ -22,41 +22,47 @@ class HomeController extends Controller
 	{
 		$user = Auth::user();
 		
-		// Fetch habits, check-ins, and goals
+		$today = now();
+		$startOfMonth = $today->copy()->startOfMonth();
+		$endOfMonth = $today->copy()->endOfMonth();
 		$habits = $user->habits;
 		$checkIns = $user->checkIns()->latest()->take(10)->get();
 		$goals = $user->goals;
 		
-		// Calculate habit streak
-		$streak = $this->calculateHabitStreak($user);
+		// Ambil semua tanggal check-in bulan ini
+		$checkInDates = $user->checkIns()
+			->whereBetween('date', [$startOfMonth, $endOfMonth])
+			->pluck('date')
+			->map(fn ($d) => Carbon::parse($d)->format('Y-m-d'))
+			->toArray();
 		
-		// Weekly check-ins count
+		// Data lainnya
+		$streak = $this->calculateHabitStreak($user);
 		$checkInsThisWeek = $user->checkIns()
 			->whereBetween('date', [now()->startOfWeek(), now()->endOfWeek()])
 			->count();
-		
-		// Daily motivation (example static message or fetched dynamically)
 		$dailyMotivation = "Stay consistent and keep pushing forward!";
 		
-		return view('home', compact('habits', 'checkIns', 'goals', 'streak', 'checkInsThisWeek', 'dailyMotivation'));
+		return view('home', compact('checkInDates', 'streak', 'checkInsThisWeek', 'dailyMotivation', 'habits', 'checkIns', 'goals'));
 	}
 	
 	private function calculateHabitStreak($user)
 	{
 		$streak = 0;
 		
-		// Ambil check-ins dan kelompokkan berdasarkan tanggal (tanpa waktu)
+		// Group check-ins by date (without time)
 		$checkIns = $user->checkIns()
 			->orderBy('date', 'desc')
 			->get()
 			->groupBy(function ($checkIn) {
-				return Carbon::make($checkIn->date)->toDateString(); // Kelompokkan berdasarkan tanggal
+				return Carbon::make($checkIn->date)->toDateString(); // Group by date
 			});
 		
-		$dates = $checkIns->keys(); // Ambil daftar tanggal unik
+		$dates = $checkIns->keys(); // Get unique dates
 		
 		foreach ($dates as $index => $date) {
-			if ($index === 0 || $date->diffInDays($dates[$index - 1]) === 1) {
+			$currentDate = Carbon::make($date); // Convert to Carbon instance
+			if ($index === 0 || $currentDate->diffInDays(Carbon::make($dates[$index - 1])) === 1) {
 				$streak++;
 			} else {
 				break;
@@ -64,5 +70,23 @@ class HomeController extends Controller
 		}
 		
 		return $streak;
+	}
+	
+	public function streak()
+	{
+		$user = Auth::user();
+		$today = now();
+		$startOfMonth = $today->copy()->startOfMonth();
+		$endOfMonth = $today->copy()->endOfMonth();
+		$startDay = $startOfMonth->copy()->startOfWeek();
+		$endDay = $endOfMonth->copy()->endOfWeek();
+		
+		$checkInDates = $user->checkIns()
+			->whereBetween('date', [$startOfMonth, $endOfMonth])
+			->pluck('date')
+			->map(fn ($d) => Carbon::parse($d)->format('Y-m-d'))
+			->toArray();
+		
+		return view('streak', compact('checkInDates', 'startDay', 'endDay'));
 	}
 }
