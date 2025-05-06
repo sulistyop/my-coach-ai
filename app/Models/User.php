@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+	    'is_first_login',
+	    'setup_completed',
     ];
 
     /**
@@ -42,4 +44,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+	
+	public function goals()
+	{
+		return $this->hasMany(Goal::class);
+	}
+	
+	public function habits()
+	{
+		return $this->hasMany(Habit::class);
+	}
+	
+	public function checkIns()
+	{
+		return $this->hasMany(CheckIn::class);
+	}
+	
+	public function habitLogs()
+	{
+		return $this->hasManyThrough(HabitLog::class, Habit::class);
+	}
 }
