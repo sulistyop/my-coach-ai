@@ -11,7 +11,9 @@ class Habit extends Model
 {
 	protected $fillable = [
 		'user_id',
+		'goal_id',
 		'name',
+		'strategy',
 		'frequency',
 		'best_time',
 		'motivation',
@@ -28,5 +30,10 @@ class Habit extends Model
 	public function logs(): HasMany
 	{
 		return $this->hasMany(HabitLog::class);
+	}
+
+	public function goal(): BelongsTo
+	{
+		return $this->belongsTo(Goal::class);
 	}
 }
