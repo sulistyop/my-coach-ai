@@ -11,7 +11,6 @@
             <div class="card-body">
                 <form method="POST" action="{{ route('setup.habits.store') }}">
                     @csrf
-
                     <div class="mb-3">
                         <label for="habit_name" class="form-label fw-semibold">
                             📝 Nama Habit

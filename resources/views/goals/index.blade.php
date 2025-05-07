@@ -51,10 +51,14 @@
         @endif
     </div>
 
-    <!-- Floating Action Button -->
-    <a href="{{ route('setup.goals') }}"
-       class="btn btn-sm btn-primary rounded-circle shadow position-fixed"
-       style="bottom: 80px; right: 20px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;">
-        <i class="bi bi-plus fs-4"></i>
-    </a>
+    <div class="custom-bottom d-flex justify-content-end">
+        <!-- Floating Action Button -->
+        <a href="{{ route('setup.goals') }}"
+           class="btn btn-sm btn-primary rounded-circle shadow custom-bottom bottom-plus">
+            <i class="bi bi-plus fs-4"></i>
+        </a>
+    </div>
+
+
+
 @endsection

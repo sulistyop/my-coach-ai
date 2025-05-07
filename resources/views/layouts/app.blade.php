@@ -65,6 +65,22 @@
             background-color: white;
         }
 
+        .custom-bottom{
+            bottom: 0;
+            position: fixed;
+            width:390px;
+        }
+
+        .bottom-plus {
+            bottom: 80px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 30px;
+            margin-bottom: 20px;
+        }
 
     </style>
 </head>
@@ -86,15 +102,12 @@
         @yield('content')
     </div>
     @auth
-    <nav class="navbar mt-3 fixed-bottom navbar-light bg-white border-top shadow-sm d-flex justify-content-around py-2 bottom-0">
+    <nav class="navbar mt-3 sticky-bottom navbar-light bg-white border-top shadow-sm d-flex justify-content-around py-2 bottom-0 custom-bottom">
         <a href="{{ route('home') }}" class="text-center text-decoration-none {{ request()->routeIs('home') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-house-door-fill fs-4 d-block"></i>
             <small style="font-size: 0.8rem;">Home</small>
         </a>
-        <a href="{{ route('checkin') }}" class="text-center text-decoration-none {{ request()->routeIs('checkin') ? 'text-success' : 'text-muted' }}">
-            <i class="bi bi-check2-square fs-4 d-block"></i>
-            <small style="font-size: 0.8rem;">Check-In</small>
-        </a>
+
         <a href="{{ route('streak') }}" class="text-center text-decoration-none {{ request()->routeIs('streak') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-fire fs-4 d-block"></i>
             <small style="font-size: 0.8rem;">Streak</small>
@@ -107,9 +120,10 @@
             <i class="bi bi-bullseye fs-4 d-block"></i>
             <small style="font-size: 0.8rem;">Goals</small>
         </a>
-        <a href="{{ route('history') }}" class="text-center text-decoration-none {{ request()->routeIs('history') ? 'text-success' : 'text-muted' }}">
-            <i class="bi bi-journal-text fs-4 d-block"></i>
-            <small style="font-size: 0.8rem;">History</small>
+        {{--Profile--}}
+        <a href="{{ route('profile') }}" class="text-center text-decoration-none {{ request()->routeIs('profile') ? 'text-success' : 'text-muted' }}">
+            <i class="bi bi-person-circle fs-4 d-block"></i>
+            <small style="font-size: 0.8rem;">Profile</small>
         </a>
     </nav>
     @endauth

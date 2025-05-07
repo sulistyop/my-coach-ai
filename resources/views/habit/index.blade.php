@@ -61,10 +61,11 @@
         @endif
     </div>
 
-    <!-- Floating Action Button -->
-    <a href="{{ route('setup.habits') }}"
-       class="btn btn-sm btn-success rounded-circle shadow position-fixed"
-       style="bottom: 80px; right: 20px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;">
-        <i class="bi bi-plus fs-4"></i>
-    </a>
+    <div class="custom-bottom d-flex justify-content-end">
+        <!-- Floating Action Button -->
+        <a href="{{ route('setup.habits') }}"
+           class="btn btn-sm btn-success rounded-circle shadow position-fixed bottom-plus">
+            <i class="bi bi-plus fs-4"></i>
+        </a>
+    </div>
 @endsection

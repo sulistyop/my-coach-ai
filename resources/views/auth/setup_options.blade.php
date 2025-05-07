@@ -3,7 +3,7 @@
 @section('content')
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
+            <div class="">
                 <div class="card shadow rounded-4 border-0">
                     <div class="card-body p-4">
                         <h4 class="mb-3 text-center text-primary">⚙️ Setup Options</h4>
