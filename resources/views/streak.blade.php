@@ -101,7 +101,7 @@
     </div>
 
     <div class="streak-header">
-        <h4 class="fw-bold mb-0">🔥 {{ count($highlightedDates) }} Day Streak!</h4>
+        <h4 class="fw-bold mb-0">🔥 {{ $streak }} Day Streak!</h4>
         <small>Keep up the great work!</small>
     </div>
 

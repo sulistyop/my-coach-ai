@@ -82,19 +82,38 @@ class HomeController extends Controller
 		
 		// Buat objek tanggal berdasarkan bulan dan tahun
 		$currentDate = Carbon::create($year, $month, 1);
-		
 		$startOfMonth = $currentDate->copy()->startOfMonth();
 		$endOfMonth = $currentDate->copy()->endOfMonth();
 		$startDay = $startOfMonth->copy()->startOfWeek();
 		$endDay = $endOfMonth->copy()->endOfWeek();
 		
-		// Ambil tanggal check-in untuk bulan tersebut
-		$checkInDates = $user->checkIns()
-			->whereBetween('date', [$startOfMonth, $endOfMonth])
+		// Ambil semua tanggal check-in hingga hari ini (untuk menghitung streak berurutan)
+		$allCheckIns = $user->checkIns()
+			->where('date', '<=', now()->toDateString())
+			->orderBy('date')
 			->pluck('date')
 			->map(fn($d) => Carbon::parse($d)->format('Y-m-d'))
 			->toArray();
 		
-		return view('streak', compact('checkInDates', 'startDay', 'endDay', 'currentDate'));
+		// Ambil tanggal check-in khusus bulan yang dipilih
+		$checkInDates = array_filter($allCheckIns, function ($date) use ($startOfMonth, $endOfMonth) {
+			return Carbon::parse($date)->between($startOfMonth, $endOfMonth);
+		});
+		
+		// Hitung streak (jumlah hari berurutan hingga hari ini)
+		$streak = 0;
+		$date = now()->copy();
+		while (in_array($date->format('Y-m-d'), $allCheckIns)) {
+			$streak++;
+			$date->subDay();
+		}
+		
+		return view('streak', [
+			'checkInDates' => $checkInDates,
+			'startDay' => $startDay,
+			'endDay' => $endDay,
+			'currentDate' => $currentDate,
+			'streak' => $streak
+		]);
 	}
 }
