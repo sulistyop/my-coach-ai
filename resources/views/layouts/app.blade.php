@@ -172,27 +172,27 @@
     <nav class="navbar mt-3 sticky-bottom navbar-light bg-primary border-top shadow-sm d-flex justify-content-around py-2 bottom-0 custom-bottom">
         <a href="{{ route('home') }}" class="text-center text-decoration-none {{ request()->routeIs('home') ? 'text-white' : 'text-light' }}">
             <i class="bi bi-house-door-fill fs-4 d-block"></i>
-            <small style="font-size: 0.8rem;">Home</small>
+            <small style="font-size: 0.8rem;">Beranda</small>
         </a>
 
         <a href="{{ route('goals') }}" class="text-center text-decoration-none {{ request()->routeIs('goals') ? 'text-white' : 'text-light' }}">
             <i class="bi bi-bullseye fs-4 d-block"></i>
-            <small style="font-size: 0.8rem;">Goals</small>
+            <small style="font-size: 0.8rem;">Tujuan</small>
         </a>
         <a href="{{ route('habits') }}" class="text-center text-decoration-none {{ request()->routeIs('habits') ? 'text-white' : 'text-light' }}">
             <i class="bi bi-list-check fs-4 d-block"></i>
-            <small style="font-size: 0.8rem;">Habits</small>
+            <small style="font-size: 0.8rem;">Kebiasaan</small>
         </a>
 
         <a href="{{ route('streak') }}" class="text-center text-decoration-none {{ request()->routeIs('streak') ? 'text-white' : 'text-light' }}">
             <i class="bi bi-fire fs-4 d-block"></i>
-            <small style="font-size: 0.8rem;">Streak</small>
+            <small style="font-size: 0.8rem;">Rekor</small>
         </a>
 
-        {{--Profile--}}
+        {{--Profil--}}
         <a href="{{ route('profile') }}" class="text-center text-decoration-none {{ request()->routeIs('profile') ? 'text-white' : 'text-light' }}">
             <i class="bi bi-person-circle fs-4 d-block"></i>
-            <small style="font-size: 0.8rem;">Profile</small>
+            <small style="font-size: 0.8rem;">Profil</small>
         </a>
     </nav>
     @endauth
