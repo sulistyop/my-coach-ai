@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Goal;
+use App\Services\OpenAiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,20 +21,20 @@ class GoalController extends Controller
 	{
 		return view('setup.goals');
 	}
-	
+
 	public function show(Goal $goal)
 	{
 		$habits = $goal->habits()->with(['logs' => function ($query) {
 			$query->whereDate('created_at', now()->toDateString());
 		}])->get();
-		
+
 		$habits = $goal->habits()->with('logs')->get();
 		$habitsDone = $habits->filter(fn($habit) => $habit->logs->isNotEmpty())->count();
 		$habitsTotal = $habits->count();
-		
+
 		return view('goals.show',  compact('goal', 'habits', 'habitsDone', 'habitsTotal'));
 	}
-	
+
 	public function edit($id)
 	{
 		$goal = Goal::findOrFail($id);
@@ -81,4 +82,14 @@ class GoalController extends Controller
 
 		return redirect()->route('goals.index')->with('success', 'Tujuan berhasil dihapus');
 	}
+
+    public function createGoal()
+    {
+        return view('goal.goal');
+    }
+
+    public function storeGoal()
+    {
+        return OpenAiService::make()->getResponse('');
+    }
 }
