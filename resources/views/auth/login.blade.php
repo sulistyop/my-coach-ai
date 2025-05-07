@@ -7,8 +7,8 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-0">
                     <div class="bg-primary text-white p-4 rounded-top">
-                        <h1 class="display-6 fw-bold">Get Started now</h1>
-                        <p class="mb-0">Create an account or log in to explore about our app</p>
+                        <h1 class="display-6 fw-bold">Mulai Sekarang</h1>
+                        <p class="mb-0">Buat akun atau masuk untuk menjelajahi aplikasi kami</p>
                     </div>
                     
                     <div class="p-4">
@@ -70,21 +70,22 @@
                             </div>
                             
                             <div class="text-center mb-3">
-                                <p class="text-muted">Or</p>
+                                <p class="text-muted">Atau</p>
                             </div>
                             
                             <div class="mb-3">
                                 <a href="#" class="btn btn-outline-secondary w-100 position-relative py-2 fw-bold">
                                     <img src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg" alt="Google" width="18" class="position-absolute start-0 ms-3">
-                                    Continue with Google
+                                    Lanjutkan dengan Google
                                 </a>
                             </div>
                             
                             <div class="mb-3">
                                 <a href="#" class="btn btn-outline-secondary w-100 position-relative py-2 fw-bold">
                                     <img src="https://cdn.cdnlogo.com/logos/f/84/facebook.svg" alt="Facebook" width="18" class="position-absolute start-0 ms-3">
-                                    Continue with Facebook
+                                    Lanjutkan dengan Facebook
                                 </a>
+                            </div>
                             </div>
                         </form>
                     </div>
