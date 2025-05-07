@@ -6,7 +6,6 @@ use App\Models\Goal;
 use App\Services\OpenAiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 
 class GoalController extends Controller
 {
@@ -92,81 +91,47 @@ class GoalController extends Controller
     public function storeGoal(Request $request)
     {
         $request->validate([
-            'answer' => 'required|string|max:255',
+            'goal' => 'required|string|max:255',
         ]);
 
-        return OpenAiService::make()->getResponse($request->answer);
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBGXHGhP1mi7uuW29QdqGNkCSjrEnk5w10";
+        return OpenAiService::make()->getResponse($request->goal);
 
-        $body = [
-            "system_instruction" => [
-                "parts" => [
-                    ["text" => "MyCoachAi: Berikan output JSON array berisi daftar list dari goals. Tidak ada teks pembuka atau penutup. gunakan kata 'biasakan' atau 'selalu'"],
-                    ["text" => "Format Array Json, key nya habit, strategy"],
-                    ["text" => "10 List data"],
-                    ["text" => "Scope: Pola Hidup Sehat, produktifitas kesehatan, olahraga"]
-                ]
-            ],
-            "contents" => [
-                [
-                    "parts" => [
-                        ["text" => "naikin berat badan 5 kg dalam 1 bulan "]
-                    ]
-                ]
-            ]
-        ];
+        // $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBGXHGhP1mi7uuW29QdqGNkCSjrEnk5w10";
 
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-        ])->post($url, $body);
+        // $body = [
+        //     "system_instruction" => [
+        //         "parts" => [
+        //             ["text" => "MyCoachAi: Berikan output JSON array berisi daftar list dari goals. Tidak ada teks pembuka atau penutup. gunakan kata 'biasakan' atau 'selalu'"],
+        //             ["text" => "Format Array Json, key nya habit, strategy"],
+        //             ["text" => "10 List data"],
+        //             ["text" => "Scope: Pola Hidup Sehat, produktifitas kesehatan, olahraga"]
+        //         ]
+        //     ],
+        //     "contents" => [
+        //         [
+        //             "parts" => [
+        //                 ["text" => "naikin berat badan 5 kg dalam 1 bulan "]
+        //             ]
+        //         ]
+        //     ]
+        // ];
 
-        if ($response->successful()) {
-            $responseData = $response->json();
+        // $response = Http::withHeaders([
+        //     'Content-Type' => 'application/json',
+        // ])->post($url, $body);
 
-            $jsonString = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? '';
+        // if ($response->successful()) {
+        //     $responseData = $response->json();
 
-            $cleaned = trim($jsonString);
-            $cleaned = preg_replace('/^```json|```$/', '', $cleaned);
-            $cleaned = trim($cleaned);
+        //     $jsonString = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
-            return json_decode($cleaned, true);
-        }
+        //     $cleaned = trim($jsonString);
+        //     $cleaned = preg_replace('/^```json|```$/', '', $cleaned);
+        //     $cleaned = trim($cleaned);
 
-        return null;
-    }
+        //     return json_decode($cleaned, true);
+        // }
 
-    public function getAsk()
-    {
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBGXHGhP1mi7uuW29QdqGNkCSjrEnk5w10";
-
-        $body = [
-            "system_instruction" => [
-                "parts" => [
-                    ["text" => "Kamu Pemberi motivasi. Tidak ada teks pembuka atau penutup"],
-                    ["text" => "User mengirim pertanyaan yaitu :Apa hal yang paling membanggakan dari hari ini?"],
-                    ["text" => "data berupa paragraf 2 kalimat yang mendukung pertanyaan tersebut"],
-                    ["text" => "tidak ada jawaban list point , tidak ada tanda - , *"],
-                    ["text" => "Scope: Motivasi"]
-                ]
-            ],
-            "contents" => [
-                [
-                    "parts" => [
-                        ["text" => "Hal membanggakan dari hari ini adalah ketika saya berhasil menyelesaikan semua tugas yang telah saya rencanakan."]
-                    ]
-                ]
-            ]
-        ];
-
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-        ])->post($url, $body);
-
-        if ($response->successful()) {
-            $responseData = $response->json();
-            return $responseData['candidates'][0]['content']['parts'][0]['text'] ?? '';
-        }
-
-        return null;
+        // return null;
     }
 }

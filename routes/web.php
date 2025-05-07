@@ -30,7 +30,6 @@ Route::get('/', function () {
 Auth::routes();
 
 /*Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/
-Route::get('/ask-ai', [GoalController::class, 'getAsk'])->name('ask-goals');
 
 Route::middleware('auth')->group(function () {
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -40,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/create-goals', [GoalController::class, 'createGoal'])->name('create-goals');
 
+    Route::get('/daily-checkin', [CheckinController::class, 'dailyCheckin'])->name('daily-checkin');
 
 	Route::get('/habits', [HabitController::class, 'index'])->name('habits');
 	Route::get('/history', [HabitController::class, 'history'])->name('history');
@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::post('/store-goals', [GoalController::class, 'storeGoal'])->name('store-goals');
+
+    Route::store('/daily-checkin', [CheckinController::class, 'dailyCheckinStore'])->name('daily-checkin-store');
 
 	Route::post('/setup/habits/store', [SetupController::class, 'storeHabits'])->name('setup.habits.store');
 	Route::post('/setup/goals/store', [SetupController::class, 'storeGoals'])->name('setup.goals.store');
