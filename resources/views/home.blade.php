@@ -136,23 +136,22 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="habitPopupModalLabel">🎉 Congratulations!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="habitPopupModalLabel">🎉 Selamat!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <div class="chat-container">
-                            <!-- Chat Messages -->
+                            <!-- Pesan Chat -->
                             <div class="chat-messages mb-3" id="chatMessages">
                                 <div class="chat-message bot-message">
                                     <div class="message-content">
                                         <i class="bi bi-trophy text-warning" style="font-size: 1.5rem;"></i>
-                                        <p>You've completed "<span id="habitNameInModal" class="fw-bold"></span>"! 🎊</p>
-                                        <p class="text-muted small">Keep going and build your streak!</p>
+                                        <p>Kamu telah menyelesaikan "<span id="habitNameInModal" class="fw-bold"></span>"! 🎊</p>
+                                        <p class="text-muted small">Tetap semangat dan bangun kebiasaanmu!</p>
                                     </div>
                                 </div>
                             </div>
-
 
                             <!-- User Input -->
                             <div class="chat-input" id="chatInputSection">
@@ -306,24 +305,29 @@
 
         habitCheckButtons.forEach(button => {
             button.addEventListener('click', function (event) {
-                event.preventDefault();
-                selectedForm = this.closest('.habit-form');
+            event.preventDefault();
+            selectedForm = this.closest('.habit-form');
 
+            const isCheckedInToday = this.dataset.isCheckedInToday === 'true';
+            if (!isCheckedInToday) {
                 const habitName = this.dataset.habitName;
                 const modalElement = document.getElementById('habitPopupModal');
                 document.getElementById('habitNameInModal').textContent = habitName;
 
                 const modal = new bootstrap.Modal(modalElement);
                 modal.show();
+            } else {
+                selectedForm.submit();
+            }
             });
         });
 
         document.querySelector('.confirm-submit').addEventListener('click', function () {
             if (selectedForm) {
-                selectedForm.submit();
-                const modalElement = document.getElementById('habitPopupModal');
-                const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
-                bootstrapModal.hide();
+            selectedForm.submit();
+            const modalElement = document.getElementById('habitPopupModal');
+            const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
+            bootstrapModal.hide();
             }
         });
     });

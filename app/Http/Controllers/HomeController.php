@@ -49,6 +49,8 @@ class HomeController extends Controller
 			->map(fn ($d) => Carbon::parse($d)->format('Y-m-d'))
 			->toArray();
 		
+		$isChekedInToday = $checkInDates && in_array($today->format('Y-m-d'), $checkInDates);
+			
 		// Other data
 		$streak = $this->calculateHabitStreak($user);
 		$checkInsThisWeek = $user->checkIns()
@@ -56,7 +58,7 @@ class HomeController extends Controller
 			->count();
 		$dailyMotivation = "Stay consistent and keep pushing forward!";
 		
-		return view('home', compact('checkInDates', 'streak', 'checkInsThisWeek', 'dailyMotivation', 'habits', 'checkIns', 'goals'));
+		return view('home', compact('checkInDates', 'streak', 'checkInsThisWeek', 'dailyMotivation', 'habits', 'checkIns', 'goals', 'isChekedInToday'));
 	}
 	
 	private function calculateHabitStreak($user)
