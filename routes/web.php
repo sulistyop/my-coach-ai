@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/store-goals', [GoalController::class, 'storeGoal'])->name('store-goals');
 
-    Route::store('/daily-checkin', [CheckinController::class, 'dailyCheckinStore'])->name('daily-checkin-store');
+    Route::post('/daily-checkin', [CheckinController::class, 'dailyCheckinStore'])->name('daily-checkin-store');
 
 	Route::post('/setup/habits/store', [SetupController::class, 'storeHabits'])->name('setup.habits.store');
 	Route::post('/setup/goals/store', [SetupController::class, 'storeGoals'])->name('setup.goals.store');
