@@ -30,6 +30,7 @@ Route::get('/', function () {
 Auth::routes();
 
 /*Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/
+Route::get('/ask-ai', [GoalController::class, 'getAsk'])->name('ask-goals');
 
 Route::middleware('auth')->group(function () {
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

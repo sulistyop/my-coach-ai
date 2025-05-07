@@ -129,4 +129,39 @@ class GoalController extends Controller
 
         return null;
     }
+
+    public function getAsk()
+    {
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBGXHGhP1mi7uuW29QdqGNkCSjrEnk5w10";
+
+        $body = [
+            "system_instruction" => [
+                "parts" => [
+                    ["text" => "Kamu Pemberi motivasi. Tidak ada teks pembuka atau penutup"],
+                    ["text" => "User mengirim pertanyaan yaitu :Apa hal yang paling membanggakan dari hari ini?"],
+                    ["text" => "data berupa paragraf 2 kalimat yang mendukung pertanyaan tersebut"],
+                    ["text" => "tidak ada jawaban list point , tidak ada tanda - , *"],
+                    ["text" => "Scope: Motivasi"]
+                ]
+            ],
+            "contents" => [
+                [
+                    "parts" => [
+                        ["text" => "Hal membanggakan dari hari ini adalah ketika saya berhasil menyelesaikan semua tugas yang telah saya rencanakan."]
+                    ]
+                ]
+            ]
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->post($url, $body);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+            return $responseData['candidates'][0]['content']['parts'][0]['text'] ?? '';
+        }
+
+        return null;
+    }
 }
