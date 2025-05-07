@@ -25,6 +25,20 @@
                             @csrf
 
                             <div class="mb-3">
+                                <label for="name" class="form-label fw-bold">Nama</label>
+                                <div class="input-group">
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Nama Lengkap" required autocomplete="name">
+                                    <span class="input-group-text bg-white"><i class="bi bi-person text-primary"></i></span>
+                                    
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="email" class="form-label fw-bold">Email</label>
                                 <div class="input-group">
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="@gmail.com" required autocomplete="email">
@@ -42,8 +56,9 @@
                                 <label for="password" class="form-label fw-bold">Kata Sandi</label>
                                 <div class="input-group">
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Kata Sandi" required autocomplete="new-password">
-                                    <span class="input-group-text bg-white"><i class="bi bi-eye-slash text-secondary"></i></span>
-                                    
+                                    <span class="input-group-text bg-white toggle-password" style="cursor: pointer;">
+                                        <i class="bi bi-eye-slash text-secondary"></i>
+                                    </span>
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -53,11 +68,14 @@
                                 <div class="small text-muted mt-1">Minimal 8 karakter</div>
                             </div>
 
+                            
                             <div class="mb-3">
                                 <label for="password-confirm" class="form-label fw-bold">Konfirmasi Kata Sandi</label>
                                 <div class="input-group">
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Konfirmasi Kata Sandi" required autocomplete="new-password">
-                                    <span class="input-group-text bg-white"><i class="bi bi-eye-slash text-secondary"></i></span>
+                                    <span class="input-group-text bg-white toggle-password" style="cursor: pointer;">
+                                        <i class="bi bi-eye-slash text-secondary"></i>
+                                    </span>
                                 </div>
                                 <div class="small text-muted mt-1">Minimal 8 karakter</div>
                             </div>
@@ -93,3 +111,24 @@
     </div>
 </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.toggle-password').forEach(item => {
+            item.addEventListener('click', function () {
+                console.log('Toggle password visibility');
+                const input = this.previousElementSibling; // Ambil input sebelum span
+                const icon = this.querySelector('i'); // Ambil ikon di dalam span
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                }
+            });
+        });
+    });
+</script>
