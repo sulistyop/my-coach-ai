@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="text-center mb-4">
-    <h4 class="fw-bold text-success">Welcome Back, {{ Auth::user()->name }}! 🌟</h4>
+    <h4 class="fw-bold text-primary">Welcome Back, {{ Auth::user()->name }}! 🌟</h4>
     <p class="text-muted">Keep up the great work and stay consistent!</p>
 </div>
 
@@ -10,7 +10,7 @@
     <!-- Daily Motivation -->
     <div class="col-12 mb-3 d-flex">
         <div class="card text-center h-100 w-100 border-0 shadow-sm rounded-4">
-            <div class="card-header bg-warning text-dark py-2 small rounded-top-4 fw-semibold">
+            <div class="card-header bg-primary text-white py-2 small rounded-top-4 fw-semibold">
                 💡 Daily Motivation
             </div>
             <div class="card-body py-3 px-4">
@@ -24,13 +24,13 @@
     <!-- Habit Streak -->
     <div class="col-6 col-md-6 mb-3 d-flex">
         <div class="card shadow-sm h-100 w-100 border-0 rounded-4">
-            <div class="card-header bg-success text-white py-2 small rounded-top-4 fw-semibold">
+            <div class="card-header bg-primary text-white py-2 small rounded-top-4 fw-semibold">
                 🔥 Your Streak
             </div>
             <div class="card-body text-center py-4">
-                <h1 class="text-success fw-bold display-5">{{ $streak }} 🔥</h1>
+                <h1 class="text-primary fw-bold display-5">{{ $streak }} 🔥</h1>
                 <p class="mb-2 small text-muted">days in a row</p>
-                <a href="{{ route('streak') }}" class="btn btn-success btn-sm rounded-pill px-4">View Streak</a>
+                <a href="{{ route('streak') }}" class="btn btn-primary btn-sm rounded-pill px-4">View Streak</a>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
 
 <div class="mt-4">
     <div class="card mb-3 border-0 shadow-sm rounded-4 p-3">
-        <h6 class="fw-bold text-success text-center">🎯 Goal Aktif</h6>
+        <h6 class="fw-bold text-primary text-center">🎯 Goal Aktif</h6>
         @if($goals)
             <p class="text-center"><strong>{{ $goals->title }}</strong></p>
         @else
@@ -62,7 +62,7 @@
     <!-- Habits Section -->
     <div class="p-3">
         <div class="mb-4 text-center">
-            <h5 class="fw-bold text-success">🧠 Your Habits</h5>
+            <h5 class="fw-bold text-primary">🧠 Your Habits</h5>
             <p class="text-muted small">Track and manage your daily habits effectively.</p>
         </div>
 
@@ -84,8 +84,8 @@
                     <div class="card shadow-sm border-0 rounded-4">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-start gap-3">
-                                <div class="bg-success-subtle rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 50px; height: 50px; min-width: 50px;">
-                                    <i class="bi bi-list-check text-success fs-4"></i>
+                                <div class="bg-primary-subtle rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 50px; height: 50px; min-width: 50px;">
+                                    <i class="bi bi-list-check text-primary fs-4"></i>
                                 </div>
                                 <div>
                                     <div class="fw-semibold fs-6 text-truncate" style="max-width: 200px;" title="{{ $habit->name }}">
@@ -115,11 +115,11 @@
                                 @csrf
                                 @method('PATCH')
                                 @if($todayLog && $todayLog->completed)
-                                    <button type="button" class="btn btn-sm btn-outline-success" disabled>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" disabled>
                                         <i class="bi bi-check-circle-fill"></i>
                                     </button>
                                 @else
-                                    <button type="button" class="btn btn-sm btn-success habit-check-btn" data-habit-id="{{ $habit->id }}" data-habit-name="{{ $habit->name }}">
+                                    <button type="button" class="btn btn-sm btn-primary habit-check-btn" data-habit-id="{{ $habit->id }}" data-habit-name="{{ $habit->name }}">
                                         <i class="bi bi-check-circle"></i>
                                     </button>
                                 @endif
@@ -146,7 +146,7 @@
                             <div class="chat-messages mb-3" id="chatMessages">
                                 <div class="chat-message bot-message">
                                     <div class="message-content">
-                                        <i class="bi bi-trophy text-warning" style="font-size: 1.5rem;"></i>
+                                        <i class="bi bi-trophy text-primary" style="font-size: 1.5rem;"></i>
                                         <p>Kamu telah menyelesaikan "<span id="habitNameInModal" class="fw-bold"></span>"! 🎊</p>
                                         <p class="text-muted small">Tetap semangat dan bangun kebiasaanmu!</p>
                                     </div>
@@ -171,12 +171,12 @@
                             <div id="responseMessage" class="chat-messages mt-3 d-none">
                                 <div class="chat-message bot-message">
                                     <div class="message-content">
-                                        <p id="responseText" class="text-success fw-bold"></p>
+                                        <p id="responseText" class="text-primary fw-bold"></p>
                                         <p class="text-muted small">Tetap semangat dan lanjutkan kebiasaan baikmu!</p>
                                     </div>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <button type="button" class="btn btn-success confirm-submit">Continue</button>
+                                    <button type="button" class="btn btn-primary confirm-submit">Continue</button>
                                 </div>
                             </div>
                         </div>
@@ -185,6 +185,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <style>
         .chat-container {

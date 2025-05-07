@@ -3,7 +3,7 @@
 @section('content')
     <div class="p-3">
         <div class="mb-3">
-            <h5 class="fw-bold text-success">🧠 Kebiasaan Kamu</h5>
+            <h5 class="fw-bold text-primary">🧠 Kebiasaan Kamu</h5>
         </div>
 
         @if($habits->isEmpty())
@@ -25,8 +25,8 @@
                     <div class="card shadow-sm border-0">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-start gap-3">
-                                <div class="bg-success-subtle rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
-                                    <i class="bi bi-list-check text-success fs-5"></i>
+                                <div class="bg-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-list-check text-white fs-5"></i>
                                 </div>
                                 <div>
                                     <div class="fw-semibold">{{ $habit->name }}</div>
@@ -53,11 +53,11 @@
                                 @csrf
                                 @method('PATCH')
                                 @if($habit->last_completed_at)
-                                    <button type="button" class="btn btn-sm btn-outline-success" disabled>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" disabled>
                                         <i class="bi bi-check-circle-fill"></i>
                                     </button>
                                 @else
-                                    <button type="submit" class="btn btn-sm btn-success">
+                                    <button type="submit" class="btn btn-sm btn-primary">
                                         <i class="bi bi-check-circle"></i>
                                     </button>
                                 @endif
@@ -73,7 +73,7 @@
         <div class="custom-bottom d-flex justify-content-end">
             <!-- Floating Action Button -->
             <a href="{{ route('setup.habits') }}"
-               class="btn btn-sm btn-success rounded-circle shadow position-fixed bottom-plus">
+               class="btn btn-sm btn-primary rounded-circle shadow position-fixed bottom-plus">
                 <i class="bi bi-plus fs-4"></i>
             </a>
         </div>
