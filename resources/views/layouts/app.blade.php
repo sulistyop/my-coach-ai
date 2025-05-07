@@ -70,17 +70,19 @@
 </head>
 <body>
 <div class="mobile-wrapper">
-    <!-- <nav class="navbar navbar-light bg-white border-bottom">
+@auth
+    <nav class="navbar navbar-light bg-white border-bottom">
         <div class="container-fluid justify-content-between">
             <span class="navbar-brand mb-0 h6">MyAI Coach</span>
-            @auth
+           
                {{--profile button--}}
                 <a href="{{ route('profile') }}" class="text-decoration-none text-muted">
                     <i class="bi bi-person-circle fs-4"></i>
                 </a>
-            @endauth
+         
         </div>
-    </nav> -->
+    </nav>
+    @endauth
 
     <div class="p-3 mb-5">
         @yield('content')
