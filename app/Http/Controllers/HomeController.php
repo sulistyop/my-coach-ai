@@ -89,18 +89,12 @@ class HomeController extends Controller
 		$startDay = $startOfMonth->copy()->startOfWeek();
 		$endDay = $endOfMonth->copy()->endOfWeek();
 		
-		// Step 1: Ambil semua goals user
-		$goalIds = Goal::where('user_id', $user->id)
-			->pluck('id');
-		
-		// Step 2: Ambil semua habits yang terkait dengan goals tersebut
-		$habitIds = Habit::whereIn('goal_id', $goalIds)
-			->pluck('id');
-		
-		// Hitung total habit yang dimiliki oleh user
+		// Get all user goals and habits
+		$goalIds = Goal::where('user_id', $user->id)->pluck('id');
+		$habitIds = Habit::whereIn('goal_id', $goalIds)->pluck('id');
 		$totalHabits = $habitIds->count();
 		
-		// Step 3: Ambil semua HabitLog dalam rentang tanggal mulai bulan hingga hari ini
+		// Get logs from the beginning of the week to today
 		$logs = HabitLog::whereIn('habit_id', $habitIds)
 			->whereBetween('date', [$startDay->toDateString(), now()->toDateString()])
 			->get()
@@ -108,36 +102,47 @@ class HomeController extends Controller
 		
 		$completedDates = [];
 		$progressByDate = [];
-		$progressData = []; // Menambahkan progress data per tanggal
+		$progressData = [];
 		
-		// Iterasi untuk menghitung progress per tanggal
+		// Calculate completion for each date
 		foreach ($logs as $date => $logList) {
-			// Hitung habit unik yang tercatat pada tanggal tersebut
 			$completedCount = $logList->unique('habit_id')->count();
 			$progress = $totalHabits > 0 ? ($completedCount / $totalHabits) * 100 : 0;
-			$progressByDate[$date] = round($progress); // Progres dalam persen
-			$progressData[$date] = $progress; // Simpan progres untuk digunakan di view
+			$progressByDate[$date] = round($progress);
+			$progressData[$date] = [
+				'completed' => $progress,
+				'total' => $totalHabits
+			];
 			
-			// Jika semua habit diselesaikan pada tanggal tersebut
 			if ($completedCount === $totalHabits) {
 				$completedDates[] = $date;
 			}
 		}
 		
-		
-		// Step 4: Hitung streak mundur dari hari ini
+		// Calculate streak - NEW IMPROVED LOGIC
 		$streak = 0;
-		$date = now()->copy();
+		$date = now()->copy()->subDay(); // Start checking from yesterday
+		
+		// Sort dates in descending order (newest first)
+		usort($completedDates, function($a, $b) {
+			return strtotime($b) - strtotime($a);
+		});
+		
+		// Calculate consecutive days from most recent backwards
 		while (in_array($date->format('Y-m-d'), $completedDates)) {
 			$streak++;
 			$date->subDay();
 		}
 		
-		// Mengirimkan data ke view
+		// If today is also completed, add 1 to streak
+		if (in_array(now()->format('Y-m-d'), $completedDates)) {
+			$streak++;
+		}
+		
 		return view('streak', [
 			'checkInDates' => $completedDates,
 			'progressByDate' => $progressByDate,
-			'progressData' => $progressData, // Menambahkan progressData
+			'progressData' => $progressData,
 			'startDay' => $startDay,
 			'endDay' => $endDay,
 			'currentDate' => $currentDate,
