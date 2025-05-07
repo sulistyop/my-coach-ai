@@ -64,10 +64,13 @@
             justify-content: center;
         }
         
+        .btn-container {
+            margin-top: 15px;
+        }
+        
         .onboarding-indicators {
             display: flex;
             justify-content: center;
-            margin-bottom: 25px;
         }
         
         .indicator {
@@ -181,9 +184,18 @@
         <div class="onboarding-content">
             <h1>Komitmen pada Kebugaran</h1>
             <p class="mb-0">Mulailah perjalanan Anda menuju versi diri yang lebih sehat dan kuat.</p>
-            <div class="d-flex justify-content-center mt-4">
-                <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
-                <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
+        </div>
+        <div class="onboarding-navigation">
+            <div class="container">
+                <div class="onboarding-indicators">
+                    <div class="indicator active" data-step="1"></div>
+                    <div class="indicator" data-step="2"></div>
+                    <div class="indicator" data-step="3"></div>
+                </div>
+                <div class="btn-container d-flex justify-content-center">
+                    <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
+                    <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
+                </div>
             </div>
         </div>
     </div>
@@ -193,9 +205,18 @@
         <div class="onboarding-content">
             <h1>Lacak Kemajuan Anda</h1>
             <p class="mb-0">Pantau latihan Anda, tetapkan tujuan, dan rayakan pencapaian Anda.</p>
-            <div class="d-flex justify-content-center mt-4">
-                <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
-                <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
+        </div>
+        <div class="onboarding-navigation">
+            <div class="container">
+                <div class="onboarding-indicators">
+                    <div class="indicator active" data-step="1"></div>
+                    <div class="indicator" data-step="2"></div>
+                    <div class="indicator" data-step="3"></div>
+                </div>
+                <div class="btn-container d-flex justify-content-center">
+                    <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
+                    <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
+                </div>
             </div>
         </div>
     </div>
@@ -205,19 +226,18 @@
         <div class="onboarding-content">
             <h1>Ubah Hidup Anda</h1>
             <p class="mb-0">Bergabunglah dengan komunitas kami dan buat perubahan positif yang bertahan lama!</p>
-            <div class="d-flex justify-content-center mt-4">
-                <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
-                <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
-            </div>
         </div>
-    </div>
-    
-    <div class="onboarding-navigation">
-        <div class="container">
-            <div class="onboarding-indicators">
-                <div class="indicator active" data-step="1"></div>
-                <div class="indicator" data-step="2"></div>
-                <div class="indicator" data-step="3"></div>
+        <div class="onboarding-navigation">
+            <div class="container">
+                <div class="onboarding-indicators">
+                    <div class="indicator active" data-step="1"></div>
+                    <div class="indicator" data-step="2"></div>
+                    <div class="indicator" data-step="3"></div>
+                </div>
+                <div class="btn-container d-flex justify-content-center">
+                    <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
+                    <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
+                </div>
             </div>
         </div>
     </div>
@@ -232,20 +252,36 @@
     
     function nextStep() {
         // Hide current step with smooth transition
-        document.querySelector(`.onboarding-step:nth-child(${currentStep})`).classList.remove('active');
-        document.querySelector(`.indicator:nth-child(${currentStep})`).classList.remove('active');
+        document.querySelectorAll('.onboarding-step')[currentStep-1].classList.remove('active');
+        
+        // Update indicators
+        document.querySelectorAll('.indicator').forEach(ind => ind.classList.remove('active'));
         
         // Move to next step
-        currentStep++;
+        if (currentStep < totalSteps) {
+            currentStep++;
+        } else {
+            // If at last step, cycle back to first step for demo purposes
+            currentStep = 1;
+        }
         
-        // Show next step
-        document.querySelector(`.onboarding-step:nth-child(${currentStep})`).classList.add('active');
-        document.querySelector(`.indicator:nth-child(${currentStep})`).classList.add('active');
+        // Show new step
+        document.querySelectorAll('.onboarding-step')[currentStep-1].classList.add('active');
+        document.querySelectorAll('.indicator')[currentStep-1].classList.add('active');
         
-        // Update buttons for last step
+        // Update buttons based on step
+        updateButtons();
+    }
+    
+    function updateButtons() {
+        // Hide all "Start" buttons and show all "Next" buttons first
+        document.querySelectorAll('#startBtn').forEach(btn => btn.classList.add('d-none'));
+        document.querySelectorAll('#nextBtn').forEach(btn => btn.classList.remove('d-none'));
+        
+        // If on last step, show "Start" button and hide "Next" button
         if (currentStep === totalSteps) {
-            document.getElementById('nextBtn').classList.add('d-none');
-            document.getElementById('startBtn').classList.remove('d-none');
+            document.querySelectorAll('.onboarding-step')[currentStep-1].querySelector('#nextBtn').classList.add('d-none');
+            document.querySelectorAll('.onboarding-step')[currentStep-1].querySelector('#startBtn').classList.remove('d-none');
         }
     }
     
@@ -257,32 +293,23 @@
     // Add click functionality to indicators
     document.addEventListener('DOMContentLoaded', function() {
         const indicators = document.querySelectorAll('.indicator');
-        indicators.forEach(indicator => {
+        indicators.forEach((indicator, index) => {
             indicator.addEventListener('click', function() {
-                const clickedStep = parseInt(this.getAttribute('data-step'));
-                
-                // Skip if already on this step
-                if (clickedStep === currentStep) return;
-                
                 // Hide current step
-                document.querySelector(`.onboarding-step:nth-child(${currentStep})`).classList.remove('active');
-                document.querySelector(`.indicator:nth-child(${currentStep})`).classList.remove('active');
+                document.querySelectorAll('.onboarding-step')[currentStep-1].classList.remove('active');
+                
+                // Update indicators
+                document.querySelectorAll('.indicator').forEach(ind => ind.classList.remove('active'));
                 
                 // Update current step
-                currentStep = clickedStep;
+                currentStep = index + 1;
                 
                 // Show new step
-                document.querySelector(`.onboarding-step:nth-child(${currentStep})`).classList.add('active');
-                document.querySelector(`.indicator:nth-child(${currentStep})`).classList.add('active');
+                document.querySelectorAll('.onboarding-step')[currentStep-1].classList.add('active');
+                document.querySelectorAll('.indicator')[currentStep-1].classList.add('active');
                 
-                // Update buttons based on step
-                if (currentStep === totalSteps) {
-                    document.getElementById('nextBtn').classList.add('d-none');
-                    document.getElementById('startBtn').classList.remove('d-none');
-                } else {
-                    document.getElementById('nextBtn').classList.remove('d-none');
-                    document.getElementById('startBtn').classList.add('d-none');
-                }
+                // Update buttons
+                updateButtons();
             });
         });
     });

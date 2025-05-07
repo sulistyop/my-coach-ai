@@ -26,21 +26,27 @@ class HomeController extends Controller
 	{
 		$user = Auth::user();
 		
+		// Check if the user has any goals
+		$goals = $user->goals;
+		if ($goals->isEmpty()) {
+			// Redirect to a different page if no goals are found
+			return redirect()->route('create-goals')->with('message', 'Please create a goal to get started.');
+		}
+		
 		$today = now();
 		$startOfMonth = $today->copy()->startOfMonth();
 		$endOfMonth = $today->copy()->endOfMonth();
 		$habits = $user->habits;
 		$checkIns = $user->checkIns()->latest()->take(10)->get();
-		$goals = $user->goals;
 		
-		// Ambil semua tanggal check-in bulan ini
+		// Get all check-in dates for this month
 		$checkInDates = $user->checkIns()
 			->whereBetween('date', [$startOfMonth, $endOfMonth])
 			->pluck('date')
 			->map(fn ($d) => Carbon::parse($d)->format('Y-m-d'))
 			->toArray();
 		
-		// Data lainnya
+		// Other data
 		$streak = $this->calculateHabitStreak($user);
 		$checkInsThisWeek = $user->checkIns()
 			->whereBetween('date', [now()->startOfWeek(), now()->endOfWeek()])
