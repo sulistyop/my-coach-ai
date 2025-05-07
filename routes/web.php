@@ -24,7 +24,7 @@ use App\Http\Controllers\DashboardController;
 */
 	
 Route::get('/', function () {
-	return auth()->check() ? redirect()->route('home') : view('welcome');
+	return auth()->check() ? redirect()->route('home') : view('on_boarding1');
 });
 
 Auth::routes();
