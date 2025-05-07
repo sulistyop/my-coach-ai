@@ -135,16 +135,7 @@
             @endif
         </div>
 
-        @if(!is_null($goals))
-            <div class="d-flex justify-content-end mt-4">
-            <!-- Floating Action Button -->
-            <a href="{{ route('setup.habits') }}"
-               class="btn btn-success rounded-circle shadow-lg position-fixed bottom-plus d-flex justify-content-center align-items-center"
-               style="width: 60px; height: 60px; bottom: 20px; right: 20px;">
-                <i class="bi bi-plus fs-4"></i>
-            </a>
-            </div>
-        @endif
+       
 
       
     </div>
