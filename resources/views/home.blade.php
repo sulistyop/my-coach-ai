@@ -67,24 +67,84 @@
      
 
         <!-- Habits Section -->
-        <div class="card mb-3 border-0 shadow-sm rounded-4">
-            <div class="card-header bg-light fw-bold small d-flex justify-content-between align-items-center rounded-top-4">
-                <span>🧠 Your Habits</span>
-                <a href="{{ route('setup.habits') }}" class="text-success fw-bold">
-                    <i class="bi bi-plus-circle-fill"></i>
-                </a>
+        <div class="p-3">
+            <div class="mb-4 text-center">
+            <h5 class="fw-bold text-success">🧠 Your Habits</h5>
+            <p class="text-muted small">Track and manage your daily habits effectively.</p>
             </div>
-            <div class="card-body p-3">
-                @forelse ($habits as $habit)
-                    <div class="d-flex justify-content-between align-items-center border-bottom py-2 small">
-                        <span>📌 {{ $habit->name }}</span>
-                        <span class="badge bg-secondary rounded-pill">{{ ucfirst($habit->frequency) }}</span>
+
+            @if($habits->isEmpty())
+            @if(is_null($goals))
+                <div class="text-center text-muted">
+                <i class="bi bi-emoji-frown fs-1"></i>
+                <p>Please create a goal first before adding habits.</p>
+                </div>
+            @else
+                <div class="text-center text-muted">
+                <i class="bi bi-emoji-frown fs-1"></i>
+                <p>No habits added yet. Start creating one!</p>
+                </div>
+            @endif
+            @else
+            <div class="d-flex flex-column gap-3">
+                @foreach($habits as $habit)
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="bg-success-subtle rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 50px; height: 50px; min-width: 50px;">
+                        <i class="bi bi-list-check text-success fs-4"></i>
+                        </div>
+                        <div>
+                        <div class="fw-semibold fs-6 text-truncate" style="max-width: 200px;" title="{{ $habit->name }}">{{ $habit->name }}</div>
+                        <div class="text-muted small">
+                            {{ ucfirst($habit->frequency) }}
+                            @if ($habit->best_time)
+                            • Best Time: {{ $habit->best_time }}
+                            @endif
+                        </div>
+                        <div class="small mt-1">
+                            @php
+                            $todayLog = $habit->logs()->where('date', now()->toDateString())->first();
+                            @endphp
+
+                            @if ($todayLog && $todayLog->completed)
+                            ✅ <span class="text-muted">Last: {{ \Illuminate\Support\Carbon::parse($todayLog->updated_at)->format('d M Y H:i') }}</span>
+                            @else
+                            ⏳ <span class="text-muted">Not completed yet</span>
+                            @endif
+                        </div>
+                        </div>
                     </div>
-                @empty
-                    <p class="text-muted small mb-0">No habits found. Start creating one!</p>
-                @endforelse
+                    <form action="{{ route('habit.markDone', $habit->id) }}" method="POST" class="ms-2">
+                        @csrf
+                        @method('PATCH')
+                        @if($todayLog && $todayLog->completed)
+                        <button type="button" class="btn btn-sm btn-outline-success" disabled>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </button>
+                        @else
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <i class="bi bi-check-circle"></i>
+                        </button>
+                        @endif
+                    </form>
+                    </div>
+                </div>
+                @endforeach
             </div>
+            @endif
         </div>
+
+        @if(!is_null($goals))
+            <div class="d-flex justify-content-end mt-4">
+            <!-- Floating Action Button -->
+            <a href="{{ route('setup.habits') }}"
+               class="btn btn-success rounded-circle shadow-lg position-fixed bottom-plus d-flex justify-content-center align-items-center"
+               style="width: 60px; height: 60px; bottom: 20px; right: 20px;">
+                <i class="bi bi-plus fs-4"></i>
+            </a>
+            </div>
+        @endif
 
       
     </div>

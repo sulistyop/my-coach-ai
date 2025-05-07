@@ -43,7 +43,7 @@ class HabitController extends Controller
 			]);
 		}
 		
-		return redirect()->route('habits')->with('success', 'Habit marked as done!');
+		return redirect()->route('habits')->with('success', 'Habit berhasil ditandai sebagai selesai');
 	}
 	
 	public function history()
