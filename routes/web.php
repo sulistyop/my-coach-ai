@@ -37,7 +37,6 @@ Route::middleware('auth')->group(function () {
 	Route::get('/home', [HomeController::class, 'index'])->name('home');
 	Route::get('/goals', [GoalController::class, 'index'])->name('goals');
 	Route::get('/habits', [HabitController::class, 'index'])->name('habits');
-	Route::get('/reflection', [RefldectionController::class, 'index'])->name('reflection');
 	Route::get('/history', [HabitController::class, 'history'])->name('history');
 	Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 	
@@ -49,6 +48,10 @@ Route::middleware('auth')->group(function () {
 	
 	Route::post('/setup/habits/store', [SetupController::class, 'storeHabits'])->name('setup.habits.store');
 	Route::post('/setup/goals/store', [SetupController::class, 'storeGoals'])->name('setup.goals.store');
+	
+	Route::get('/goals/{id}/edit', [GoalController::class, 'edit'])->name('goals.edit');
+	Route::put('/goals/{id}', [GoalController::class, 'update'])->name('goals.update');
+	Route::get('/goals/{goal}', [GoalController::class, 'show'])->name('goals.show');
 	
 	Route::get('/checkin', [CheckinController::class, 'index'])->name('checkin');
 	Route::get('/checkin/create', [CheckinController::class, 'create'])->name('checkin.create');

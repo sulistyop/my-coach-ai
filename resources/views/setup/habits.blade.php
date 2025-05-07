@@ -11,6 +11,22 @@
             <div class="card-body">
                 <form method="POST" action="{{ route('setup.habits.store') }}">
                     @csrf
+
+                    {{--input hidden not_setup--}}
+                    <input type="hidden" name="not_setup" value="true">
+
+                    {{--Goals Card--}}
+                    {{--Goals Select--}}
+                    <div class="mb-3">
+                        <label for="goal_id" class="form-label fw-semibold">
+                            🎯 Pilih Tujuan
+                        </label>
+                        <select class="form-select rounded-3" id="goal_id" name="goal_id" required>
+                            @foreach($goals as $goal)
+                                <option value="{{ $goal->id }}">{{ $goal->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="habit_name" class="form-label fw-semibold">
                             📝 Nama Habit

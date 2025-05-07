@@ -3,14 +3,22 @@
 @section('content')
     <div class="p-3">
         <div class="mb-3">
-            <h5 class="fw-bold text-success">🧠 Your Habits</h5>
+            <h5 class="fw-bold text-success">🧠 Kebiasaan Kamu</h5>
         </div>
 
         @if($habits->isEmpty())
-            <div class="text-center text-muted">
-                <i class="bi bi-emoji-frown fs-1"></i>
-                <p>No habits found. Start creating one!</p>
-            </div>
+
+            @if($goals->isEmpty())
+                <div class="text-center text-muted">
+                    <i class="bi bi-emoji-frown fs-1"></i>
+                    <p>Harap buat tujuan terlebih dahulu sebelum membuat kebiasaan.</p>
+                </div>
+            @else
+                <div class="text-center text-muted">
+                    <i class="bi bi-emoji-frown fs-1"></i>
+                    <p>Tida ada kebiasaan yang ditambahkan. Mulai buat satu!</p>
+                </div>
+            @endif
         @else
             <div class="d-flex flex-column gap-3">
                 @foreach($habits as $habit)
@@ -61,11 +69,13 @@
         @endif
     </div>
 
-    <div class="custom-bottom d-flex justify-content-end">
-        <!-- Floating Action Button -->
-        <a href="{{ route('setup.habits') }}"
-           class="btn btn-sm btn-success rounded-circle shadow position-fixed bottom-plus">
-            <i class="bi bi-plus fs-4"></i>
-        </a>
-    </div>
+    @if($goals->isNotEmpty())
+        <div class="custom-bottom d-flex justify-content-end">
+            <!-- Floating Action Button -->
+            <a href="{{ route('setup.habits') }}"
+               class="btn btn-sm btn-success rounded-circle shadow position-fixed bottom-plus">
+                <i class="bi bi-plus fs-4"></i>
+            </a>
+        </div>
+    @endif
 @endsection

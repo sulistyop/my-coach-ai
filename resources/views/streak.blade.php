@@ -10,6 +10,7 @@
         $endOfMonth = $currentDate->copy()->endOfMonth()->endOfWeek();
         $prevMonth = $currentDate->copy()->subMonth();
         $nextMonth = $currentDate->copy()->addMonth();
+        $progressData = $progressData ?? []; // default if not set
     @endphp
 
     <style>
@@ -54,6 +55,8 @@
             border-radius: 50%;
             font-weight: bold;
             font-size: 0.9rem;
+            z-index: 1;
+            background-color: #fff;
         }
 
         .calendar-cell.highlighted {
@@ -66,31 +69,26 @@
             box-shadow: 0 0 0 3px #ffa726;
         }
 
-        .calendar-cell .drop-icon {
-            position: absolute;
-            bottom: -8px;
-            width: 22px;
-            height: 22px;
-            background-color: #4fc3f7;
-            border-radius: 50% 50% 50% 0;
-            transform: translateX(-50%) rotate(45deg);
-            left: 50%;
-            z-index: 1;
-        }
-
-        .calendar-cell .drop-icon::after {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 10px;
-            height: 10px;
-            background-color: white;
-            border-radius: 50%;
-        }
-
         .calendar-cell.inactive {
             color: #bbb;
+        }
+
+        /* Progress bar di luar tanggal */
+        .calendar-cell .circle-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #e0e0e0;
+            z-index: 0;
+            background: conic-gradient(#e0e0e0 0%, #e0e0e0 100%);
+        }
+
+        /* Styling progress bar dengan warna saat memiliki progress */
+        .calendar-cell.highlighted .circle-progress {
+            background: conic-gradient(#ffca28 0%, #e0e0e0 0%);
         }
     </style>
 
@@ -125,11 +123,18 @@
                         if ($isCheckIn) $classes .= ' highlighted';
                         if ($isToday) $classes .= ' today';
                         if (!$isCurrentMonth) $classes .= ' inactive';
+
+                        // Hitung persentase progress berdasarkan data habit
+                        $completedHabits = $progressData[$formatted]['completed'] ?? 0;
+                        $totalHabits = $progressData[$formatted]['total'] ?? 1;
+                        $progressPercentage = ($completedHabits / $totalHabits) * 100;
                     @endphp
                     <div class="{{ $classes }}">
                         {{ $current->day }}
-                        @if ($isCheckIn)
-                            <div class="drop-icon"></div>
+                        @if ($progressPercentage > 0)
+                            <div class="circle-progress"
+                                 style="background: conic-gradient(#4fc3f7 {{ $progressPercentage }}%, #e0e0e0 {{ $progressPercentage }}%);">
+                            </div>
                         @endif
                     </div>
                 @endfor

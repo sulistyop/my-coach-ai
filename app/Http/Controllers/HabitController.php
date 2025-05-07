@@ -14,7 +14,11 @@ class HabitController extends Controller
 		$habits = Habit::where('user_id', Auth::id())
 			->orderBy('created_at', 'desc')
 			->get();
-		return view('habit.index', compact('habits'));
+		$goals = Auth::user()->goals()
+			->orderBy('created_at', 'desc')
+			->get();
+		
+		return view('habit.index', compact('habits', 'goals'));
 	}
 	
 	public function create()

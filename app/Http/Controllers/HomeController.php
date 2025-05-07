@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Goal;
+use App\Models\Habit;
+use App\Models\HabitLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -76,44 +80,68 @@ class HomeController extends Controller
 	{
 		$user = Auth::user();
 		
-		// Ambil bulan dan tahun dari query string, default ke bulan sekarang
 		$month = $request->input('month', now()->month);
 		$year = $request->input('year', now()->year);
 		
-		// Buat objek tanggal berdasarkan bulan dan tahun
 		$currentDate = Carbon::create($year, $month, 1);
 		$startOfMonth = $currentDate->copy()->startOfMonth();
 		$endOfMonth = $currentDate->copy()->endOfMonth();
 		$startDay = $startOfMonth->copy()->startOfWeek();
 		$endDay = $endOfMonth->copy()->endOfWeek();
 		
-		// Ambil semua tanggal check-in hingga hari ini (untuk menghitung streak berurutan)
-		$allCheckIns = $user->checkIns()
-			->where('date', '<=', now()->toDateString())
-			->orderBy('date')
-			->pluck('date')
-			->map(fn($d) => Carbon::parse($d)->format('Y-m-d'))
-			->toArray();
+		// Step 1: Ambil semua goals user
+		$goalIds = Goal::where('user_id', $user->id)
+			->pluck('id');
 		
-		// Ambil tanggal check-in khusus bulan yang dipilih
-		$checkInDates = array_filter($allCheckIns, function ($date) use ($startOfMonth, $endOfMonth) {
-			return Carbon::parse($date)->between($startOfMonth, $endOfMonth);
-		});
+		// Step 2: Ambil semua habits yang terkait dengan goals tersebut
+		$habitIds = Habit::whereIn('goal_id', $goalIds)
+			->pluck('id');
 		
-		// Hitung streak (jumlah hari berurutan hingga hari ini)
+		// Hitung total habit yang dimiliki oleh user
+		$totalHabits = $habitIds->count();
+		
+		// Step 3: Ambil semua HabitLog dalam rentang tanggal mulai bulan hingga hari ini
+		$logs = HabitLog::whereIn('habit_id', $habitIds)
+			->whereBetween('date', [$startDay->toDateString(), now()->toDateString()])
+			->get()
+			->groupBy('date');
+		
+		$completedDates = [];
+		$progressByDate = [];
+		$progressData = []; // Menambahkan progress data per tanggal
+		
+		// Iterasi untuk menghitung progress per tanggal
+		foreach ($logs as $date => $logList) {
+			// Hitung habit unik yang tercatat pada tanggal tersebut
+			$completedCount = $logList->unique('habit_id')->count();
+			$progress = $totalHabits > 0 ? ($completedCount / $totalHabits) * 100 : 0;
+			$progressByDate[$date] = round($progress); // Progres dalam persen
+			$progressData[$date] = $progress; // Simpan progres untuk digunakan di view
+			
+			// Jika semua habit diselesaikan pada tanggal tersebut
+			if ($completedCount === $totalHabits) {
+				$completedDates[] = $date;
+			}
+		}
+		
+		
+		// Step 4: Hitung streak mundur dari hari ini
 		$streak = 0;
 		$date = now()->copy();
-		while (in_array($date->format('Y-m-d'), $allCheckIns)) {
+		while (in_array($date->format('Y-m-d'), $completedDates)) {
 			$streak++;
 			$date->subDay();
 		}
 		
+		// Mengirimkan data ke view
 		return view('streak', [
-			'checkInDates' => $checkInDates,
+			'checkInDates' => $completedDates,
+			'progressByDate' => $progressByDate,
+			'progressData' => $progressData, // Menambahkan progressData
 			'startDay' => $startDay,
 			'endDay' => $endDay,
 			'currentDate' => $currentDate,
-			'streak' => $streak
+			'streak' => $streak,
 		]);
 	}
 }

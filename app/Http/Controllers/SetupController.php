@@ -59,6 +59,7 @@ class SetupController extends Controller
 			'frequency' => 'required|string|in:daily,weekly',
 			'best_time' => 'nullable|date_format:H:i',
 			'motivation' => 'nullable|string|max:255',
+			'goal_id' => 'required|exists:goals,id',
 		]);
 		
 		Auth::user()->habits()->create([
@@ -66,7 +67,12 @@ class SetupController extends Controller
 			'frequency' => $request->input('frequency'),
 			'best_time' => $request->input('best_time'),
 			'motivation' => $request->input('motivation'),
+			'goal_id' => $request->input('goal_id'),
 		]);
+		
+		if($request->input('not_setup', false)) {
+			return redirect()->route('habits')->with('success', 'Habit berhasil ditambahkan');
+		}
 		
 		return $this->nextStep($request);
 	}
@@ -84,12 +90,23 @@ class SetupController extends Controller
 			'description' => $request->input('description'),
 		]);
 		
+		if($request->input('not_setup', false)) {
+			return redirect()->route('goals')->with('success', 'Tujuan berhasil ditambahkan');
+		}
+		
 		return $this->nextStep($request);
 	}
 	
 	public function setupHabits()
 	{
-		return view('setup.habits');
+		$goals = Auth::user()
+			->goals()
+			->get();
+		
+		
+		return view('setup.habits', [
+			'goals' => $goals,
+		]);
 	}
 	
 	public function setupGoals()

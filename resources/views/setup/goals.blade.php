@@ -53,9 +53,33 @@
             font-size: 0.875rem !important;
         }
 
-        ul.list-group li {
+        .habit-pill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .habit-pill {
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+            color: #111;
             font-size: 0.875rem;
-            padding: 0.5rem 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            white-space: nowrap;
+        }
+
+        .habit-pill:hover {
+            background-color: #f3f4f6;
+        }
+
+        .habit-pill.active {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
         }
 
         @media (min-width: 768px) {
@@ -67,12 +91,12 @@
     </style>
 
     <div class="py-3 px-3">
-        <h5 class="fw-bold text-primary mb-1">🎯 Setup Goals Kamu</h5>
+        <h5 class="fw-bold text-primary mb-1">🎯 Sesuaikan Tujuanmu</h5>
         <p class="text-muted small mb-3">Bangun kebiasaan baru untuk bantu kamu berkembang setiap hari!</p>
 
         <div class="tab-header">
             <button class="tab-button active" onclick="showTab(0)">💡 Rekomendasi</button>
-            <button class="tab-button" onclick="showTab(1)">✍️ Custom</button>
+            <button class="tab-button" onclick="showTab(1)">✍️ Kustom</button>
         </div>
 
         <div id="tabContent">
@@ -81,8 +105,8 @@
                 <h6 class="fw-semibold mb-3">Rekomendasi AI</h6>
                 <form id="promptForm" method="POST" onsubmit="event.preventDefault(); generateRecommendations();">
                     <div class="mb-3">
-                        <label for="userPrompt">Masukkan Prompt Anda</label>
-                        <input type="text" class="form-control rounded-3" id="userPrompt" name="userPrompt" required placeholder="Contoh: Kebiasaan untuk menjadi lebih produktif">
+                        <label for="userPrompt">Apa tantangan terbesarmu hari ini?</label>
+                        <textarea class="form-control rounded-3" id="userPrompt" name="userPrompt" required placeholder="Contoh: Kebiasaan untuk menjadi lebih produktif"></textarea>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary rounded-3 fw-semibold py-2">🎯 Dapatkan Rekomendasi</button>
@@ -91,33 +115,22 @@
 
                 <div id="recommendations" class="mt-4" style="display: none;">
                     <h6 class="fw-semibold mb-3">Rekomendasi Kebiasaan</h6>
-                    <ul class="list-group list-group-flush mb-0">
-                        <li class="list-group-item">
-                            <input type="checkbox" id="habit1" name="habits[]" value="Baca buku 10 halaman per hari">
-                            📚 Baca buku 10 halaman per hari
-                            <input type="hidden" name="strategies[]" value="Atur waktu untuk membaca setiap hari di pagi hari">
-                        </li>
-                        <li class="list-group-item">
-                            <input type="checkbox" id="habit2" name="habits[]" value="Jalan kaki 5000 langkah">
-                            👟 Jalan kaki 5000 langkah
-                            <input type="hidden" name="strategies[]" value="Gunakan aplikasi pedometer untuk mengukur langkah">
-                        </li>
-                        <li class="list-group-item">
-                            <input type="checkbox" id="habit3" name="habits[]" value="Menulis jurnal harian">
-                            📝 Menulis jurnal harian
-                            <input type="hidden" name="strategies[]" value="Tulis 3 hal positif setiap malam sebelum tidur">
-                        </li>
-                        <li class="list-group-item">
-                            <input type="checkbox" id="habit4" name="habits[]" value="Meditasi 10 menit setiap pagi">
-                            🧘 Meditasi 10 menit setiap pagi
-                            <input type="hidden" name="strategies[]" value="Gunakan aplikasi meditasi dengan panduan audio">
-                        </li>
-                        <li class="list-group-item">
-                            <input type="checkbox" id="habit5" name="habits[]" value="Belajar coding selama 1 jam">
-                            💻 Belajar coding selama 1 jam
-                            <input type="hidden" name="strategies[]" value="Sediakan waktu satu jam di pagi hari untuk belajar coding">
-                        </li>
-                    </ul>
+                    <div class="habit-pill-container mb-4">
+                        <button class="habit-pill" data-habit="Baca buku 10 halaman per hari" data-strategy="Atur waktu untuk membaca setiap hari di pagi hari">📚 Baca buku 10 halaman per hari</button>
+                        <button class="habit-pill" data-habit="Jalan kaki 5000 langkah" data-strategy="Gunakan aplikasi pedometer untuk mengukur langkah">👟 Jalan kaki 5000 langkah</button>
+                        <button class="habit-pill" data-habit="Menulis jurnal harian" data-strategy="Tulis 3 hal positif setiap malam sebelum tidur">📝 Menulis jurnal harian</button>
+                        <button class="habit-pill" data-habit="Meditasi 10 menit setiap pagi" data-strategy="Gunakan aplikasi meditasi dengan panduan audio">🧘 Meditasi 10 menit setiap pagi</button>
+                        <button class="habit-pill" data-habit="Belajar coding selama 1 jam" data-strategy="Sediakan waktu satu jam di pagi hari untuk belajar coding">💻 Belajar coding selama 1 jam</button>
+                    </div>
+
+                    <!-- Hidden inputs untuk dikirim saat submit -->
+                    <form method="POST" action="{{ route('setup.goals.store') }}">
+                        @csrf
+                        <div id="selectedHabits"></div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success rounded-3 fw-semibold py-2">✅ Simpan Goal</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -125,13 +138,16 @@
             <div class="tab-card tab-pane" id="tab-1">
                 <form method="POST" action="{{ route('setup.goals.store') }}">
                     @csrf
+
+                    {{--input hidden not_setup--}}
+                    <input type="hidden" name="not_setup" value="true">
                     <div class="mb-2">
-                        <label for="goal_name">Nama Goal</label>
+                        <label for="goal_name">Nama Tujuan</label>
                         <input type="text" class="form-control rounded-3" id="goal_name" name="goal_name" required placeholder="Contoh: Belajar Laravel">
                     </div>
 
                     <div class="mb-2">
-                        <label for="deadline">Deadline</label>
+                        <label for="deadline">Tanggal Tercapai</label>
                         <input type="date" class="form-control rounded-3" id="deadline" name="deadline" required>
                     </div>
 
@@ -172,12 +188,33 @@
         function generateRecommendations() {
             const prompt = document.getElementById('userPrompt').value;
             const recommendationsSection = document.getElementById('recommendations');
-
-            // Show the recommendations section after generating
             recommendationsSection.style.display = 'block';
-
-            // Placeholder: log prompt (you can replace with real logic/API)
             console.log('Prompt Submitted: ' + prompt);
         }
+
+        // Toggle & generate hidden inputs
+        document.addEventListener('DOMContentLoaded', function () {
+            const habitButtons = document.querySelectorAll('.habit-pill');
+            const selectedHabitsContainer = document.getElementById('selectedHabits');
+
+            habitButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    button.classList.toggle('active');
+                    updateHiddenInputs();
+                });
+            });
+
+            function updateHiddenInputs() {
+                selectedHabitsContainer.innerHTML = '';
+                document.querySelectorAll('.habit-pill.active').forEach(button => {
+                    const habit = button.dataset.habit;
+                    const strategy = button.dataset.strategy;
+                    selectedHabitsContainer.innerHTML += `
+                        <input type="hidden" name="habits[]" value="${habit}">
+                        <input type="hidden" name="strategies[]" value="${strategy}">
+                    `;
+                });
+            }
+        });
     </script>
 @endsection
