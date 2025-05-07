@@ -11,9 +11,17 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        .header {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
         body {
             background-color: #F5F5F5; /* Abu-abu lembut */
             font-family: 'Poppins', sans-serif; /* Font modern dan ramah */
+            padding-bottom: 50px;
         }
         .navbar {
             background-color: #4CAF50; /* Hijau cerah */
@@ -25,6 +33,7 @@
         }
         .card {
             border-radius: 15px; /* Membuat sudut kartu melengkung */
+            border: none; /* Menghilangkan border default */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
         }
         .card-header {
@@ -56,6 +65,8 @@
             min-height: 100vh;
             background-color: white;
         }
+
+
     </style>
 </head>
 <body>
@@ -76,11 +87,34 @@
         </div>
     </nav>
 
-    <div class="p-3">
+    <div class="p-3 mb-5">
         @yield('content')
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <nav class="navbar mt-3 fixed-bottom navbar-light bg-white border-top shadow-sm d-flex justify-content-around py-2 bottom-0">
+        <a href="{{ route('home') }}" class="text-center text-decoration-none {{ request()->routeIs('home') ? 'text-success' : 'text-muted' }}">
+            <i class="bi bi-house-door-fill fs-4 d-block"></i>
+            <small>Home</small>
+        </a>
+        <a href="{{ route('checkin') }}" class="text-center text-decoration-none {{ request()->routeIs('checkin') ? 'text-success' : 'text-muted' }}">
+            <i class="bi bi-check2-square fs-4 d-block"></i>
+            <small>Check-In</small>
+        </a>
+        <a href="{{ route('streak') }}" class="text-center text-decoration-none {{ request()->routeIs('streak') ? 'text-success' : 'text-muted' }}">
+            <i class="bi bi-fire fs-4 d-block"></i>
+            <small>Streak</small>
+        </a>
+        <a href="{{ route('habits') }}" class="text-center text-decoration-none {{ request()->routeIs('habits') ? 'text-success' : 'text-muted' }}">
+            <i class="bi bi-list-check fs-4 d-block"></i>
+            <small>Habits</small>
+        </a>
+        <a href="{{ route('setup.goals') }}" class="text-center text-decoration-none {{ request()->routeIs('setup.goals') ? 'text-success' : 'text-muted' }}">
+            <i class="bi bi-bullseye fs-4 d-block"></i>
+            <small>Goals</small>
+        </a>
+    </nav>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

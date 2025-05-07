@@ -1,36 +1,58 @@
-<!-- resources/views/setup/habits.blade.php -->
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h2>Setup Habits</h2>
-        <form method="POST" action="{{ route('setup.habits.store') }}">
-            @csrf
-            <div class="mb-3">
-                <label for="habit_name" class="form-label">Nama Habit</label>
-                <input type="text" class="form-control" id="habit_name" name="habit_name" required>
-            </div>
+    <div class=" py-4">
+        <div class="mb-4">
+            <h4 class="fw-bold text-primary">✨ Setup Habit Baru</h4>
+            <p class="text-muted">Buat kebiasaan baru untuk bantu kamu berkembang setiap hari!</p>
+        </div>
 
-            <div class="mb-3">
-                <label for="frequency" class="form-label">Frekuensi</label>
-                <select class="form-control" id="frequency" name="frequency" required>
-                    <option value="daily">Harian</option>
-                    <option value="weekly">Mingguan</option>
-                </select>
-            </div>
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body">
+                <form method="POST" action="{{ route('setup.habits.store') }}">
+                    @csrf
 
-            <div class="mb-3">
-                <label for="best_time" class="form-label">Waktu Terbaik (opsional)</label>
-                <input type="time" class="form-control" id="best_time" name="best_time">
-            </div>
+                    <div class="mb-3">
+                        <label for="habit_name" class="form-label fw-semibold">
+                            📝 Nama Habit
+                        </label>
+                        <input type="text" class="form-control rounded-3" id="habit_name" name="habit_name" required>
+                    </div>
 
-            <div class="mb-3">
-                <label for="motivation" class="form-label">Motivasi (opsional)</label>
-                <textarea class="form-control" id="motivation" name="motivation"></textarea>
-            </div>
+                    <div class="mb-3">
+                        <label for="frequency" class="form-label fw-semibold">
+                            🔁 Frekuensi
+                        </label>
+                        <select class="form-select rounded-3" id="frequency" name="frequency" required>
+                            <option value="daily">Harian</option>
+                            <option value="weekly">Mingguan</option>
+                        </select>
+                    </div>
 
-            <button type="submit" class="btn btn-primary">Simpan dan Lanjut</button>
-            <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
-        </form>
+                    <div class="mb-3">
+                        <label for="best_time" class="form-label fw-semibold">
+                            ⏰ Waktu Terbaik <span class="text-muted">(opsional)</span>
+                        </label>
+                        <input type="time" class="form-control rounded-3" id="best_time" name="best_time">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="motivation" class="form-label fw-semibold">
+                            💬 Motivasi <span class="text-muted">(opsional)</span>
+                        </label>
+                        <textarea class="form-control rounded-3" id="motivation" name="motivation" rows="3"></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url()->previous() }}" class="btn btn-outline-secondary rounded-3">
+                            ← Kembali
+                        </a>
+                        <button type="submit" class="btn btn-success rounded-3">
+                            Simpan →
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection

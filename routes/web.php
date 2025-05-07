@@ -50,7 +50,10 @@ Route::middleware('auth')->group(function () {
 	Route::post('/setup/goals/store', [SetupController::class, 'storeGoals'])->name('setup.goals.store');
 	
 	Route::get('/checkin', [CheckinController::class, 'index'])->name('checkin');
+	Route::get('/checkin/create', [CheckinController::class, 'create'])->name('checkin.create');
 	Route::post('/checkin/submit', [CheckinController::class, 'submit'])->name('checkin.submit');
 	
 	Route::get('/streak', [HomeController::class, 'streak'])->name('streak');
+	
+	Route::patch('/habits/{habit}/mark-done', [HabitController::class, 'markDone'])->name('habit.markDone');
 });

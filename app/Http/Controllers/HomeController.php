@@ -72,21 +72,29 @@ class HomeController extends Controller
 		return $streak;
 	}
 	
-	public function streak()
+	public function streak(Request $request)
 	{
 		$user = Auth::user();
-		$today = now();
-		$startOfMonth = $today->copy()->startOfMonth();
-		$endOfMonth = $today->copy()->endOfMonth();
+		
+		// Ambil bulan dan tahun dari query string, default ke bulan sekarang
+		$month = $request->input('month', now()->month);
+		$year = $request->input('year', now()->year);
+		
+		// Buat objek tanggal berdasarkan bulan dan tahun
+		$currentDate = Carbon::create($year, $month, 1);
+		
+		$startOfMonth = $currentDate->copy()->startOfMonth();
+		$endOfMonth = $currentDate->copy()->endOfMonth();
 		$startDay = $startOfMonth->copy()->startOfWeek();
 		$endDay = $endOfMonth->copy()->endOfWeek();
 		
+		// Ambil tanggal check-in untuk bulan tersebut
 		$checkInDates = $user->checkIns()
 			->whereBetween('date', [$startOfMonth, $endOfMonth])
 			->pluck('date')
-			->map(fn ($d) => Carbon::parse($d)->format('Y-m-d'))
+			->map(fn($d) => Carbon::parse($d)->format('Y-m-d'))
 			->toArray();
 		
-		return view('streak', compact('checkInDates', 'startDay', 'endDay'));
+		return view('streak', compact('checkInDates', 'startDay', 'endDay', 'currentDate'));
 	}
 }

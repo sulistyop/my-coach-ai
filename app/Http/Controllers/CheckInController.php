@@ -10,6 +10,15 @@ class CheckInController extends Controller
 {
 	public function index()
 	{
+		$checkIns = CheckIn::where('user_id', Auth::id())
+			->orderBy('date', 'desc')
+			->get();
+		
+		return view('checkin.index', compact('checkIns'));
+	}
+	
+	public function create()
+	{
 		return view('setup.checkin.index');
 	}
 	
