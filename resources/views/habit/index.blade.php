@@ -28,8 +28,8 @@
                                 <div class="bg-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                                     <i class="bi bi-list-check text-white fs-5"></i>
                                 </div>
-                                <div>
-                                    <div class="fw-semibold">{{ $habit->name }}</div>
+                                <div class="flex-shrink-1">
+                                    <div class="fw-semibold text-truncate" style="max-width: 200px;">{{ $habit->name }}</div>
                                     <div class="text-muted small">
                                         {{ ucfirst($habit->frequency) }}
                                         @if ($habit->best_time)

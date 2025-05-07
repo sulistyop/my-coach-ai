@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="text-center mb-4">
-    <h4 class="fw-bold text-primary">Welcome Back, {{ Auth::user()->name }}! 🌟</h4>
-    <p class="text-muted">Keep up the great work and stay consistent!</p>
+    <h4 class="fw-bold text-primary">Selamat Datang Kembali, {{ Auth::user()->name }}! 🌟</h4>
+    <p class="text-muted">Tetap semangat dan konsisten!</p>
 </div>
 
 <div class="row mt-4">
-    <!-- Daily Motivation -->
+    <!-- Motivasi Harian -->
     <div class="col-12 mb-3 d-flex">
         <div class="card text-center h-100 w-100 border-0 shadow-sm rounded-4">
             <div class="card-header bg-primary text-white py-2 small rounded-top-4 fw-semibold">
-                💡 Daily Motivation
+                💡 Motivasi Harian
             </div>
             <div class="card-body py-3 px-4">
                 <blockquote class="blockquote mb-0">
@@ -21,29 +21,29 @@
         </div>
     </div>
 
-    <!-- Habit Streak -->
+    <!-- Streak Kebiasaan -->
     <div class="col-6 col-md-6 mb-3 d-flex">
         <div class="card shadow-sm h-100 w-100 border-0 rounded-4">
             <div class="card-header bg-primary text-white py-2 small rounded-top-4 fw-semibold">
-                🔥 Your Streak
+                🔥 Streak Kamu
             </div>
             <div class="card-body text-center py-4">
                 <h1 class="text-primary fw-bold display-5">{{ $streak }} 🔥</h1>
-                <p class="mb-2 small text-muted">days in a row</p>
-                <a href="{{ route('streak') }}" class="btn btn-primary btn-sm rounded-pill px-4">View Streak</a>
+                <p class="mb-2 small text-muted">hari berturut-turut</p>
+                <a href="{{ route('streak') }}" class="btn btn-primary btn-sm rounded-pill px-4">Lihat Streak</a>
             </div>
         </div>
     </div>
 
-    <!-- Weekly Check-Ins -->
+    <!-- Statistik Mingguan -->
     <div class="col-6 col-md-6 mb-3 d-flex">
         <div class="card shadow-sm h-100 w-100 border-0 rounded-4">
             <div class="card-header bg-primary text-white py-2 small rounded-top-4 fw-semibold">
-                📊 Weekly Stats
+                📊 Statistik Mingguan
             </div>
             <div class="card-body text-center py-4">
                 <h1 class="text-primary fw-bold display-5">{{ $checkInsThisWeek }} ✅</h1>
-                <p class="mb-0 small text-muted">completed this week</p>
+                <p class="mb-0 small text-muted">diselesaikan minggu ini</p>
             </div>
         </div>
     </div>
@@ -55,27 +55,27 @@
         @if($goals)
             <p class="text-center"><strong>{{ $goals->title }}</strong></p>
         @else
-            <p class="text-muted small text-center">No active goals found. Start setting your goals!</p>
+            <p class="text-muted small text-center">Belum ada goal aktif. Mulailah menetapkan goal Anda!</p>
         @endif
     </div>
 
-    <!-- Habits Section -->
+    <!-- Bagian Kebiasaan -->
     <div class="p-3">
         <div class="mb-4 text-center">
-            <h5 class="fw-bold text-primary">🧠 Your Habits</h5>
-            <p class="text-muted small">Track and manage your daily habits effectively.</p>
+            <h5 class="fw-bold text-primary">🧠 Kebiasaan Anda</h5>
+            <p class="text-muted small">Lacak dan kelola kebiasaan harian Anda dengan efektif.</p>
         </div>
 
         @if($habits->isEmpty())
             @if(is_null($goals))
                 <div class="text-center text-muted">
                     <i class="bi bi-emoji-frown fs-1"></i>
-                    <p>Please create a goal first before adding habits.</p>
+                    <p>Silakan buat goal terlebih dahulu sebelum menambahkan kebiasaan.</p>
                 </div>
             @else
                 <div class="text-center text-muted">
                     <i class="bi bi-emoji-frown fs-1"></i>
-                    <p>No habits added yet. Start creating one!</p>
+                    <p>Belum ada kebiasaan yang ditambahkan. Mulailah membuat satu!</p>
                 </div>
             @endif
         @else
@@ -94,7 +94,7 @@
                                     <div class="text-muted small">
                                         {{ ucfirst($habit->frequency) }}
                                         @if ($habit->best_time)
-                                            • Best Time: {{ $habit->best_time }}
+                                            • Waktu Terbaik: {{ $habit->best_time }}
                                         @endif
                                     </div>
                                     <div class="small mt-1">
@@ -103,9 +103,9 @@
                                         @endphp
 
                                         @if ($todayLog && $todayLog->completed)
-                                            ✅ <span class="text-muted">Last: {{ \Illuminate\Support\Carbon::parse($todayLog->updated_at)->format('d M Y H:i') }}</span>
+                                            ✅ <span class="text-muted">Terakhir: {{ \Illuminate\Support\Carbon::parse($todayLog->updated_at)->format('d M Y H:i') }}</span>
                                         @else
-                                            ⏳ <span class="text-muted">Not completed yet</span>
+                                            ⏳ <span class="text-muted">Belum selesai</span>
                                         @endif
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
         @endif
     </div>
 
-    <!-- Popup Modal -->
+    <!-- Modal Popup -->
     <div class="modal fade" id="habitPopupModal" tabindex="-1" aria-labelledby="habitPopupModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -147,13 +147,13 @@
                                 <div class="chat-message bot-message">
                                     <div class="message-content">
                                         <i class="bi bi-trophy text-primary" style="font-size: 1.5rem;"></i>
-                                        <p>Kamu telah menyelesaikan "<span id="habitNameInModal" class="fw-bold"></span>"! 🎊</p>
-                                        <p class="text-muted small">Tetap semangat dan bangun kebiasaanmu!</p>
+                                        <p>Anda telah menyelesaikan "<span id="habitNameInModal" class="fw-bold"></span>"! 🎊</p>
+                                        <p class="text-muted small">Tetap semangat dan bangun kebiasaan Anda!</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- User Input -->
+                            <!-- Input Pengguna -->
                             <div class="chat-input" id="chatInputSection">
                                 <div class="mb-3">
                                     <label for="goalInput" class="form-label">Apa hal yang paling membanggakan dari hari ini?</label>
@@ -164,19 +164,16 @@
                                 </div>
                             </div>
 
-
-                            
-
-                            <!-- Response Message -->
+                            <!-- Pesan Respon -->
                             <div id="responseMessage" class="chat-messages mt-3 d-none">
                                 <div class="chat-message bot-message">
                                     <div class="message-content">
                                         <p id="responseText" class="text-primary fw-bold"></p>
-                                        <p class="text-muted small">Tetap semangat dan lanjutkan kebiasaan baikmu!</p>
+                                        <p class="text-muted small">Tetap semangat dan lanjutkan kebiasaan baik Anda!</p>
                                     </div>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <button type="button" class="btn btn-primary confirm-submit">Continue</button>
+                                    <button type="button" class="btn btn-primary confirm-submit">Lanjutkan</button>
                                 </div>
                             </div>
                         </div>
@@ -186,6 +183,7 @@
         </div>
     </div>
 </div>
+
 
     <style>
         .chat-container {
