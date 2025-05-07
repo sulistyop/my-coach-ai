@@ -1,72 +1,90 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card shadow-sm border-0 rounded-4">
-                    <div class="card-body p-4">
-                        <h4 class="text-center mb-4 fw-bold text-primary">🔐 Login</h4>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-0">
+                    <div class="bg-primary text-white p-4 rounded-top">
+                        <h1 class="display-6 fw-bold">Get Started now</h1>
+                        <p class="mb-0">Create an account or log in to explore about our app</p>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="d-flex mb-4">
+                            <div class="flex-grow-1">
+                                <button class="btn btn-light w-100 fw-bold border border-2 {{ Route::currentRouteName() == 'login' ? 'active' : '' }}">Masuk</button>
+                            </div>
+                            <div class="flex-grow-1">
+                                <a href="{{ route('register') }}" class="btn btn-light w-100 fw-bold text-secondary">Daftar</a>
+                            </div>
+                        </div>
 
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
-                            {{-- Email --}}
                             <div class="mb-3">
-                                <label for="email" class="form-label">📧 Email</label>
-                                <input id="email" type="email"
-                                       class="form-control rounded-3 @error('email') is-invalid @enderror"
-                                       name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                @error('email')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                                <label for="email" class="form-label fw-bold">Email</label>
+                                <div class="input-group">
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="@gmail.com" required autocomplete="email" autofocus>
+                                    <span class="input-group-text bg-white"><i class="bi bi-envelope text-primary"></i></span>
+                                    
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @enderror
                             </div>
 
-                            {{-- Password --}}
                             <div class="mb-3">
-                                <label for="password" class="form-label">🔑 Password</label>
-                                <input id="password" type="password"
-                                       class="form-control rounded-3 @error('password') is-invalid @enderror"
-                                       name="password" required autocomplete="current-password">
-                                @error('password')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                                <div class="d-flex justify-content-between">
+                                    <label for="password" class="form-label fw-bold">Kata Sandi</label>
                                 </div>
-                                @enderror
+                                <div class="input-group">
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Kata Sandi" required autocomplete="current-password">
+                                    <span class="input-group-text bg-white"><i class="bi bi-eye-slash text-secondary"></i></span>
+                                    
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="small text-muted mt-1">Minimal 8 karakter</div>
                             </div>
 
-                            {{-- Remember Me --}}
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                        {{ old('remember') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="remember">
-                                    Ingat saya
-                                </label>
+                            <div class="mb-3 text-end">
+                                @if (Route::has('password.request'))
+                                    <a class="text-primary text-decoration-none" href="{{ route('password.request') }}">
+                                        Lupa Kata Sandi
+                                    </a>
+                                @endif
                             </div>
 
-                            {{-- Submit Button --}}
-                            <div class="d-grid mb-3">
-                                <button type="submit" class="btn btn-success rounded-3">
-                                    Login
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                                    Log In
                                 </button>
                             </div>
-
-                            {{-- Forgot Password --}}
-                            @if (Route::has('password.request'))
-                                <div class="text-center">
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        Lupa password?
-                                    </a>
-                                </div>
-                            @endif
-
-                            {{-- Register Link --}}
-                            <div class="text-center mt-3">
-                                <p class="text-muted">
-                                    Belum punya akun? <a href="{{ route('register') }}" class="text-primary">Daftar</a>
-                                </p>
+                            
+                            <div class="text-center mb-3">
+                                <p class="text-muted">Or</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <a href="#" class="btn btn-outline-secondary w-100 position-relative py-2 fw-bold">
+                                    <img src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg" alt="Google" width="18" class="position-absolute start-0 ms-3">
+                                    Continue with Google
+                                </a>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <a href="#" class="btn btn-outline-secondary w-100 position-relative py-2 fw-bold">
+                                    <img src="https://cdn.cdnlogo.com/logos/f/84/facebook.svg" alt="Facebook" width="18" class="position-absolute start-0 ms-3">
+                                    Continue with Facebook
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -74,4 +92,5 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
