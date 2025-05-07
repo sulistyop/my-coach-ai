@@ -26,7 +26,7 @@ class OpenAiService
                 'system_instruction' => [
                     'parts' => [
                         ['text' => 'MyCoachAi: Berikan output JSON array berisi daftar list dari goals. Tidak ada teks pembuka atau penutup.'],
-                        ['text' => 'Format Json, key nya habbit, strategy'],
+                        ['text' => 'Format Json, key nya habit, strategy'],
                         ['text' => '10 List data'],
                         ['text' => 'Scope: Pola Hidup Sehat, produktifitas kesehatan, olahraga'],
                     ],

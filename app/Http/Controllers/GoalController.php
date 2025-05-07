@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Goal;
-use App\Services\OpenAiService;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\OpenAiService;
 
 class GoalController extends Controller
 {
@@ -134,4 +135,22 @@ class GoalController extends Controller
 
         // return null;
     }
+
+
+    public function indexGoals(Request $request)
+    {
+        $request->validate([
+            'goal' => 'required|string|max:255',
+        ]);
+
+        $userPrompt = $request->input('goal');
+        
+
+        $user = Auth::user();
+
+        return view('goal.goal-ai', compact('user', 'userPrompt'));
+    }
+
+
+
 }

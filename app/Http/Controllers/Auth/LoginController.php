@@ -46,7 +46,7 @@ class LoginController extends Controller
 		}
 		
 		// Tampilkan konfirmasi untuk setup habits atau goals
-		return view('auth.setup_options', [
+		return view('goal.goal', [
 			'user' => $user
 		]);
 		
