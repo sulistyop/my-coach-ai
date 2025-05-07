@@ -70,7 +70,7 @@ class CheckInController extends Controller
                 "parts" => [
                     ["text" => "Kamu Pemberi motivasi. Tidak ada teks pembuka atau penutup"],
                     ["text" => "User mengirim pertanyaan yaitu :Apa hal yang paling membanggakan dari hari ini?"],
-                    ["text" => "data berupa paragraf 2 kalimat yang mendukung pertanyaan tersebut"],
+                    ["text" => "data berupa paragraf 1 kalimat yang mendukung pertanyaan tersebut"],
                     ["text" => "tidak ada jawaban list point , tidak ada tanda - , *"],
                     ["text" => "Scope: Motivasi"]
                 ]

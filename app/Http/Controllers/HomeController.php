@@ -56,7 +56,7 @@ class HomeController extends Controller
 		$checkInsThisWeek = $user->checkIns()
 			->whereBetween('date', [now()->startOfWeek(), now()->endOfWeek()])
 			->count();
-		$dailyMotivation = $isChekedInToday ? $checkIns->first()->ai_response ?? 'Great job checking in today!' : 'Don’t forget to check in and stay on track!';
+		$dailyMotivation = $isChekedInToday ? ($checkIns->first()->ai_response ?? 'Kerja bagus sudah check-in hari ini!') : 'Jangan lupa untuk check-in dan tetap pada jalur!';
 		
 		
 		return view('home', compact('checkInDates', 'streak', 'checkInsThisWeek', 'dailyMotivation', 'habits', 'checkIns', 'goals', 'isChekedInToday'));
