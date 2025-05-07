@@ -50,23 +50,21 @@
         </div>
     </div>
 
-    <a href="{{ route('checkin') }}" class="btn btn-primary w-100 mt-3 rounded-pill fw-semibold py-2">
+    <!-- <a href="{{ route('checkin') }}" class="btn btn-primary w-100 mt-3 rounded-pill fw-semibold py-2">
         ✅ Mulai Check-in Hari Ini
-    </a>
+    </a> -->
 
     <div class="mt-4">
-        <h6 class="fw-bold text-success">🎯 Goal Aktif</h6>
-        <p><strong>Produktivitas</strong> — Fokus & disiplin kerja harian</p>
+        <div class="card mb-3 border-0 shadow-sm rounded-4 p-3">
+            <h6 class="fw-bold text-success text-center">🎯 Goal Aktif</h6>
+            @if($goals)
+            <p class="text-center"><strong>{{ $goals->title }}</strong></p>
+            @else
+            <p class="text-muted small text-center">No active goals found. Start setting your goals!</p>
+            @endif
+        </div>
 
-        <h6 class="fw-bold text-success">💪 Kebiasaan</h6>
-        <ul class="list-group mb-3 rounded-4">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Minum Air 💧 <span class="badge bg-success rounded-pill">3/5</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Tidur Cukup 😴 <span class="badge bg-success rounded-pill">4/5</span>
-            </li>
-        </ul>
+     
 
         <!-- Habits Section -->
         <div class="card mb-3 border-0 shadow-sm rounded-4">
@@ -88,43 +86,7 @@
             </div>
         </div>
 
-        <!-- Check-In History Section -->
-        <div class="card mb-3 border-0 shadow-sm rounded-4">
-            <div class="card-header bg-light fw-bold small rounded-top-4">
-                📅 Recent Check-Ins
-            </div>
-            <div class="card-body p-3">
-                @forelse ($checkIns as $checkIn)
-                    <div class="border-bottom py-2 small">
-                        <strong class="text-primary">{{ $checkIn->date }}</strong><br>
-                        😄 Mood: <em>{{ $checkIn->mood }}</em><br>
-                        🎯 Challenge: {{ $checkIn->answer }}
-                    </div>
-                @empty
-                    <p class="text-muted small mb-0">No check-ins found. Start your daily check-in!</p>
-                @endforelse
-            </div>
-        </div>
-
-        <!-- Goals Section -->
-        <div class="card mb-3 border-0 shadow-sm rounded-4">
-            <div class="card-header bg-light fw-bold small d-flex justify-content-between align-items-center rounded-top-4">
-                <span>🎯 Your Goals</span>
-                <a href="{{ route('setup.goals') }}" class="text-primary fw-bold">
-                    <i class="bi bi-plus-circle-fill"></i>
-                </a>
-            </div>
-            <div class="card-body p-3">
-                @forelse ($goals as $goal)
-                    <div class="d-flex justify-content-between border-bottom py-2 small">
-                        <span>🎯 {{ $goal->title }}</span>
-                        <span class="text-muted">📅 {{ \Carbon\Carbon::parse($goal->target_date)->format('d M Y') }}</span>
-                    </div>
-                @empty
-                    <p class="text-muted small mb-0">No goals found. Start setting your goals!</p>
-                @endforelse
-            </div>
-        </div>
+      
     </div>
 
 

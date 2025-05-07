@@ -7,6 +7,7 @@ use App\Models\Goal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\OpenAiService;
+use App\Models\Habit;
 
 class GoalController extends Controller
 {
@@ -21,6 +22,43 @@ class GoalController extends Controller
     public function create()
     {
         return view('setup.goals');
+    }
+
+    public function storeHabitResult(Request $request)
+    {
+        $request->validate([
+            'goal_name' => 'required|string|max:255',
+        ]);
+
+        $goalName = $request->input('goal_name');
+        $goals = $request->input('goals');
+
+        try {
+            \DB::beginTransaction();
+
+            $goal = new Goal();
+            $goal->title = $goalName;
+            $goal->user_id = Auth::id();
+            $goal->save();
+
+            foreach ($goals as $goalData) {
+                $habit = new Habit();
+                $habit->name = $goalData['habit'];
+                $habit->strategy = $goalData['strategy'];
+                $habit->goal_id = $goal->id;
+                $habit->user_id = Auth::id();
+                $habit->frequency = 'daily';
+                $habit->save();
+            }
+
+            \DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Habit berhasil ditambahkan']);
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan saat menambahkan habit', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function show(Goal $goal)

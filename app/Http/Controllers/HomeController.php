@@ -27,11 +27,10 @@ class HomeController extends Controller
 		$user = Auth::user();
 		
 		// Check if the user has any goals
-		$goals = $user->goals;
-		if ($goals->isEmpty()) {
-			// Redirect to a different page if no goals are found
-			return redirect()->route('create-goals')->with('message', 'Please create a goal to get started.');
-		}
+		$goals = $user->goals()->first();
+		
+		
+		
 		
 		$today = now();
 		$startOfMonth = $today->copy()->startOfMonth();
