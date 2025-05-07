@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 	Route::get('/goals', [GoalController::class, 'index'])->name('goals');
 	Route::get('/habits', [HabitController::class, 'index'])->name('habits');
 	Route::get('/reflection', [ReflectionController::class, 'index'])->name('reflection');
+	Route::get('/history', [HabitController::class, 'history'])->name('history');
 	Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 	
 	Route::post('/auth/setup/process', [SetupController::class, 'process'])->name('auth.setup.process');

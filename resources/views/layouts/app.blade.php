@@ -74,14 +74,10 @@
         <div class="container-fluid justify-content-between">
             <span class="navbar-brand mb-0 h6">MyAI Coach</span>
             @auth
-                <a href="{{ route('logout') }}"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                   class="btn btn-sm btn-outline-secondary">
-                    Logout
+               {{--profile button--}}
+                <a href="{{ route('profile') }}" class="text-decoration-none text-muted">
+                    <i class="bi bi-person-circle fs-4"></i>
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
             @endauth
         </div>
     </nav>
@@ -93,23 +89,27 @@
     <nav class="navbar mt-3 fixed-bottom navbar-light bg-white border-top shadow-sm d-flex justify-content-around py-2 bottom-0">
         <a href="{{ route('home') }}" class="text-center text-decoration-none {{ request()->routeIs('home') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-house-door-fill fs-4 d-block"></i>
-            <small>Home</small>
+            <small style="font-size: 0.8rem;">Home</small>
         </a>
         <a href="{{ route('checkin') }}" class="text-center text-decoration-none {{ request()->routeIs('checkin') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-check2-square fs-4 d-block"></i>
-            <small>Check-In</small>
+            <small style="font-size: 0.8rem;">Check-In</small>
         </a>
         <a href="{{ route('streak') }}" class="text-center text-decoration-none {{ request()->routeIs('streak') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-fire fs-4 d-block"></i>
-            <small>Streak</small>
+            <small style="font-size: 0.8rem;">Streak</small>
         </a>
         <a href="{{ route('habits') }}" class="text-center text-decoration-none {{ request()->routeIs('habits') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-list-check fs-4 d-block"></i>
-            <small>Habits</small>
+            <small style="font-size: 0.8rem;">Habits</small>
         </a>
         <a href="{{ route('goals') }}" class="text-center text-decoration-none {{ request()->routeIs('goals') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-bullseye fs-4 d-block"></i>
-            <small>Goals</small>
+            <small style="font-size: 0.8rem;">Goals</small>
+        </a>
+        <a href="{{ route('history') }}" class="text-center text-decoration-none {{ request()->routeIs('history') ? 'text-success' : 'text-muted' }}">
+            <i class="bi bi-journal-text fs-4 d-block"></i>
+            <small style="font-size: 0.8rem;">History</small>
         </a>
     </nav>
     @endauth
