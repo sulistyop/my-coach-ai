@@ -81,15 +81,12 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 3px solid #e0e0e0;
             z-index: 0;
-            background: conic-gradient(#e0e0e0 0%, #e0e0e0 100%);
+
         }
 
         /* Styling progress bar dengan warna saat memiliki progress */
-        .calendar-cell.highlighted .circle-progress {
-            background: conic-gradient(#ffca28 0%, #e0e0e0 0%);
-        }
+
     </style>
 
     <div class="text-center mb-3">
@@ -105,7 +102,7 @@
 
     <div class="calendar shadow">
         <div class="calendar-row">
-            @foreach(['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] as $day)
+            @foreach([ 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa','Su'] as $day)
                 <div class="day-label">{{ $day }}</div>
             @endforeach
         </div>
@@ -128,12 +125,22 @@
                         $completedHabits = $progressData[$formatted]['completed'] ?? 0;
                         $totalHabits = $progressData[$formatted]['total'] ?? 1;
                         $progressPercentage = ($completedHabits / $totalHabits) * 100;
+
                     @endphp
                     <div class="{{ $classes }}">
                         {{ $current->day }}
-                        @if ($progressPercentage > 0)
-                            <div class="circle-progress"
-                                 style="background: conic-gradient(#4fc3f7 {{ $progressPercentage }}%, #e0e0e0 {{ $progressPercentage }}%);">
+                        @if ($completedHabits > 0)
+                            <div class="circle-progress">
+                                <svg viewBox="0 0 36 36" class="circular-chart">
+                                    <path class="circle-progress-bg" d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e0e0e0" stroke-width="2" />
+                                    <path class="circle-progress-bar" d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#28a745" stroke-width="2"
+                                          stroke-dasharray="{{ $completedHabits }}, 100" />
+                                </svg>
+
                             </div>
                         @endif
                     </div>
@@ -145,4 +152,9 @@
     <div class="text-center mt-4">
         <a href="{{ route('home') }}" class="btn btn-outline-warning">⬅ Back to Home</a>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+
 @endsection
