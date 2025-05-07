@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'services' => [
+        'openai' => env('ai_key')
+    ],
+
 ];

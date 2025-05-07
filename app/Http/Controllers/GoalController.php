@@ -89,8 +89,13 @@ class GoalController extends Controller
         return view('goal.goal');
     }
 
-    public function storeGoal()
+    public function storeGoal(Request $request)
     {
+        $request->validate([
+            'answer' => 'required|string|max:255',
+        ]);
+
+        return OpenAiService::make()->getResponse($request->answer);
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBGXHGhP1mi7uuW29QdqGNkCSjrEnk5w10";
 
         $body = [

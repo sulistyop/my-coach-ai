@@ -14,18 +14,17 @@ class OpenAiService
 
     public function getResponse(string $userInput)
     {
-        $apiKey = config('services.openai.key');
         $client = new Client();
+        $apiKey = env('ai_key');
+        $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
-
-        $response = $client->post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBGXHGhP1mi7uuW29QdqGNkCSjrEnk5w10', [
+        $response = $client->post("$url?key=$apiKey", [
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
             'json' => [
                 'system_instruction' => [
                     'parts' => [
-                        // Format Array Json, key nya habit, strategy
                         ['text' => 'MyCoachAi: Berikan output JSON array berisi daftar list dari goals. Tidak ada teks pembuka atau penutup.'],
                         ['text' => 'Format Json, key nya habbit, strategy'],
                         ['text' => '10 List data'],
@@ -35,7 +34,7 @@ class OpenAiService
                 'contents' => [
                     [
                         'parts' => [
-                            ['text' => 'naikin berat badan 5 kg dalam 1 bulan  '],
+                            ['text' => $userInput],
                         ],
                     ],
                 ],
@@ -44,9 +43,12 @@ class OpenAiService
 
         $body = $response->getBody()->getContents();
         $data = json_decode($body, true);
-        // return $data;
         $dataResult = $data['candidates'][0]['content']['parts'][0]['text'];
-        info(gettype($dataResult));
-        return $dataResult[5];
+
+        $cleaned = trim($dataResult);
+        $cleaned = preg_replace('/^```json|```$/', '', $cleaned);
+        $cleaned = trim($cleaned);
+
+        return json_decode($cleaned, true);
     }
 }
