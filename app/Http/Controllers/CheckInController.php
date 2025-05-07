@@ -95,13 +95,14 @@ class CheckInController extends Controller
             if ($resMessage) {
                 CheckIn::firstOrCreate([
                     'user_id' => Auth::id(),
-                    'challenge' => '',
+                    'date' => now()->format('Y-m-d'),
+                ],[
                     'answer' => $request->answer,
                     'ai_response' => $resMessage,
                     'mood' => 'Senang',
-                    'date' => now()->format('Y-m-d'),
                 ]);
             }
+
             return $resMessage;
         }
 
