@@ -143,9 +143,9 @@
         <div class="container-fluid justify-content-between">
             <span class="navbar-brand mb-0 h6">MyAI Coach</span>
 
-               {{--profile button--}}
-                <a href="{{ route('profile') }}" class="text-decoration-none text-muted">
-                    <i class="bi bi-person-circle fs-4"></i>
+               {{--notification button--}}
+                <a href="#" class="text-decoration-none text-muted">
+                    <i class="bi bi-bell fs-4"></i>
                 </a>
 
         </div>

@@ -179,24 +179,36 @@
     <!-- Step 1 -->
     <div class="onboarding-step active" style="background-image: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')">
         <div class="onboarding-content">
-            <h1>Commit to Fitness</h1>
-            <p class="mb-0">Begin your journey to a healthier and stronger version of yourself.</p>
+            <h1>Komitmen pada Kebugaran</h1>
+            <p class="mb-0">Mulailah perjalanan Anda menuju versi diri yang lebih sehat dan kuat.</p>
+            <div class="d-flex justify-content-center mt-4">
+                <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
+                <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
+            </div>
         </div>
     </div>
     
     <!-- Step 2 -->
     <div class="onboarding-step" style="background-image: url('https://images.unsplash.com/photo-1502904550040-7534597429ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80')">
         <div class="onboarding-content">
-            <h1>Track Your Progress</h1>
-            <p class="mb-0">Monitor your workouts, set goals, and celebrate your achievements.</p>
+            <h1>Lacak Kemajuan Anda</h1>
+            <p class="mb-0">Pantau latihan Anda, tetapkan tujuan, dan rayakan pencapaian Anda.</p>
+            <div class="d-flex justify-content-center mt-4">
+                <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
+                <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
+            </div>
         </div>
     </div>
     
     <!-- Step 3 -->
     <div class="onboarding-step" style="background-image: url('https://images.unsplash.com/photo-1549576490-b0b4831ef60a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')">
         <div class="onboarding-content">
-            <h1>Transform Your Life</h1>
-            <p class="mb-0">Join our community and make positive changes that last!</p>
+            <h1>Ubah Hidup Anda</h1>
+            <p class="mb-0">Bergabunglah dengan komunitas kami dan buat perubahan positif yang bertahan lama!</p>
+            <div class="d-flex justify-content-center mt-4">
+                <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
+                <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
+            </div>
         </div>
     </div>
     
@@ -206,11 +218,6 @@
                 <div class="indicator active" data-step="1"></div>
                 <div class="indicator" data-step="2"></div>
                 <div class="indicator" data-step="3"></div>
-            </div>
-            
-            <div class="d-flex justify-content-center">
-                <button id="nextBtn" class="btn btn-primary px-5" onclick="nextStep()">Selanjutnya</button>
-                <button id="startBtn" class="btn btn-success px-5 d-none" onclick="startApp()">Mulai</button>
             </div>
         </div>
     </div>
