@@ -6,13 +6,11 @@
 
         $today = Carbon::today();
         $highlightedDates = $checkInDates; // format: ['2024-07-01', '2024-07-02', ...]
-        $startOfMonth = Carbon::now()->startOfMonth()->startOfWeek();
-        $endOfMonth = Carbon::now()->endOfMonth()->endOfWeek();
-		$prevMonth = $currentDate->copy()->subMonth();
+        $startOfMonth = $currentDate->copy()->startOfMonth()->startOfWeek();
+        $endOfMonth = $currentDate->copy()->endOfMonth()->endOfWeek();
+        $prevMonth = $currentDate->copy()->subMonth();
         $nextMonth = $currentDate->copy()->addMonth();
     @endphp
-
-
 
     <style>
         .streak-header {
@@ -75,9 +73,8 @@
             height: 22px;
             background-color: #4fc3f7;
             border-radius: 50% 50% 50% 0;
-            transform: rotate(45deg);
-            left: 50%;
             transform: translateX(-50%) rotate(45deg);
+            left: 50%;
             z-index: 1;
         }
 
@@ -104,7 +101,7 @@
     </div>
 
     <div class="streak-header">
-        <h4 class="fw-bold mb-0">🔥 {{ count($checkInDates) }} Day Streak!</h4>
+        <h4 class="fw-bold mb-0">🔥 {{ count($highlightedDates) }} Day Streak!</h4>
         <small>Keep up the great work!</small>
     </div>
 
@@ -115,17 +112,16 @@
             @endforeach
         </div>
 
-        @for($date = $startOfMonth->copy(); $date->lte($endOfMonth); $date->addWeek())
+        @for ($date = $startOfMonth->copy(); $date->lte($endOfMonth); $date->addWeek())
             <div class="calendar-row">
-                @for($i = 0; $i < 7; $i++)
+                @for ($i = 0; $i < 7; $i++)
                     @php
                         $current = $date->copy()->addDays($i);
                         $isToday = $current->isToday();
                         $formatted = $current->format('Y-m-d');
                         $isCheckIn = in_array($formatted, $highlightedDates);
-                        $isCurrentMonth = $current->month === now()->month;
+                        $isCurrentMonth = $current->month === $currentDate->month;
                         $classes = 'calendar-cell';
-
                         if ($isCheckIn) $classes .= ' highlighted';
                         if ($isToday) $classes .= ' today';
                         if (!$isCurrentMonth) $classes .= ' inactive';

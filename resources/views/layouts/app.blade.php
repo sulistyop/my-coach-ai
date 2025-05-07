@@ -21,7 +21,6 @@
         body {
             background-color: #F5F5F5; /* Abu-abu lembut */
             font-family: 'Poppins', sans-serif; /* Font modern dan ramah */
-            padding-bottom: 50px;
         }
         .navbar {
             background-color: #4CAF50; /* Hijau cerah */
@@ -90,6 +89,7 @@
     <div class="p-3 mb-5">
         @yield('content')
     </div>
+    @auth
     <nav class="navbar mt-3 fixed-bottom navbar-light bg-white border-top shadow-sm d-flex justify-content-around py-2 bottom-0">
         <a href="{{ route('home') }}" class="text-center text-decoration-none {{ request()->routeIs('home') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-house-door-fill fs-4 d-block"></i>
@@ -107,11 +107,12 @@
             <i class="bi bi-list-check fs-4 d-block"></i>
             <small>Habits</small>
         </a>
-        <a href="{{ route('setup.goals') }}" class="text-center text-decoration-none {{ request()->routeIs('setup.goals') ? 'text-success' : 'text-muted' }}">
+        <a href="{{ route('goals') }}" class="text-center text-decoration-none {{ request()->routeIs('goals') ? 'text-success' : 'text-muted' }}">
             <i class="bi bi-bullseye fs-4 d-block"></i>
             <small>Goals</small>
         </a>
     </nav>
+    @endauth
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

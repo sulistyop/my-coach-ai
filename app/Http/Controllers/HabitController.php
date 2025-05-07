@@ -24,7 +24,19 @@ class HabitController extends Controller
 	
 	public function markDone(Habit $habit)
 	{
-		$habit->update(['last_completed_at' => now()]);
+		$today = now()->toDateString();
+		$habit->update(['last_completed_at' => $today]);
+		
+		$logExists = $habit->logs()->where('date', $today)->exists();
+		
+		if (!$logExists) {
+			$habit->logs()->create([
+				'habit_id' => $habit->id,
+				'date' => $today,
+				'completed' => true,
+				'notes' => null,
+			]);
+		}
 		
 		return redirect()->route('habits')->with('success', 'Habit marked as done!');
 	}
