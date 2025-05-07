@@ -70,7 +70,7 @@
 </head>
 <body>
 <div class="mobile-wrapper">
-    <nav class="navbar navbar-light bg-white border-bottom">
+    <!-- <nav class="navbar navbar-light bg-white border-bottom">
         <div class="container-fluid justify-content-between">
             <span class="navbar-brand mb-0 h6">MyAI Coach</span>
             @auth
@@ -80,7 +80,7 @@
                 </a>
             @endauth
         </div>
-    </nav>
+    </nav> -->
 
     <div class="p-3 mb-5">
         @yield('content')
