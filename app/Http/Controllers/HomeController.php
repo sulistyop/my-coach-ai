@@ -29,6 +29,10 @@ class HomeController extends Controller
 		// Check if the user has any goals
 		$goals = $user->goals()->first();
 		
+		if (!$goals) {
+			return redirect()->route('create-goals')->with('message', 'Please create a goal to get started.');
+		}
+		
 		
 		
 		

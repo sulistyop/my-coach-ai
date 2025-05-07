@@ -87,25 +87,34 @@ class CheckInController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
         ])->post($url, $body);
+       
 
         if ($response->successful()) {
             $responseData = $response->json();
             $resMessage = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? '';
 
             if ($resMessage) {
-                CheckIn::firstOrCreate([
-                    'user_id' => Auth::id(),
-                    'date' => now()->format('Y-m-d'),
-                ],[
-                    'answer' => $request->answer,
-                    'ai_response' => $resMessage,
-                    'mood' => 'Senang',
-                ]);
+            CheckIn::firstOrCreate([
+                'user_id' => Auth::id(),
+                'date' => now()->format('Y-m-d'),
+            ], [
+                'answer' => $request->answer,
+                'ai_response' => $resMessage,
+                'mood' => 'Senang',
+            ]);
+
+            return response()->json([
+                'message' => $resMessage,
+            ]);
             }
 
-            return $resMessage;
+            return response()->json([
+            'message' => 'Terima kasih atas jawabanmu! 🌟',
+            ]);
         }
 
-        return null;
+        return response()->json([
+            'message' => 'Terjadi kesalahan. Silakan coba lagi.',
+        ], 500);
     }
 }
