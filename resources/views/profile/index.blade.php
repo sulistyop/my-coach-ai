@@ -17,9 +17,9 @@
 
                 {{-- User Info --}}
                 <div>
-                    <h5 class="fw-bold mb-1">{{ $user->name }}</h5>
-                    <p class="mb-1 text-muted"><i class="bi bi-envelope-fill me-1"></i>{{ $user->email }}</p>
-                    <p class="mb-0 text-muted"><i class="bi bi-calendar-check me-1"></i>Bergabung pada {{ $user->created_at->format('d M Y') }}</p>
+                    <h5 class="fw-bold mb-1 fs-5" style="font-size: 1em !important;">{{ $user->name }}</h5>
+                    <p class="mb-1 text-muted small"><i class="bi bi-envelope-fill me-1" style="font-size: 0.8em !important;"></i>{{ $user->email }}</p>
+                    <p class="mb-0 text-muted small"><i class="bi bi-calendar-check me-1" style="font-size: 0.8em !important;"></i>Bergabung pada {{ $user->created_at->translatedFormat('d F Y') }}</p>
                 </div>
             </div>
         </div>

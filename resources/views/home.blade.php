@@ -30,7 +30,7 @@
             <div class="card-body text-center py-4">
                 <h1 class="text-primary fw-bold display-5">{{ $streak }} 🔥</h1>
                 <p class="mb-2 small text-muted">hari berturut-turut</p>
-                <a href="{{ route('streak') }}" class="btn btn-primary btn-sm rounded-pill px-4">Lihat Streak</a>
+                <a href="{{ route('streak') }}" class="btn btn-primary btn-sm rounded-pill px-4">Lihat Rekor</a>
             </div>
         </div>
     </div>
@@ -51,11 +51,11 @@
 
 <div class="mt-4">
     <div class="card mb-3 border-0 shadow-sm rounded-4 p-3">
-        <h6 class="fw-bold text-primary text-center">🎯 Goal Aktif</h6>
+        <h6 class="fw-bold text-primary text-center">🎯 Tujuan Aktif</h6>
         @if($goals)
             <p class="text-center"><strong>{{ $goals->title }}</strong></p>
         @else
-            <p class="text-muted small text-center">Belum ada goal aktif. Mulailah menetapkan goal Anda!</p>
+            <p class="text-muted small text-center">Belum ada Tujuan aktif. Mulailah menetapkan Tujuan Anda!</p>
         @endif
     </div>
 
@@ -92,7 +92,7 @@
                                         {{ $habit->name }}
                                     </div>
                                     <div class="text-muted small">
-                                        {{ ucfirst($habit->frequency) }}
+                                        {{ $habit->frequency == 'daily' ? 'Harian' : ucfirst($habit->frequency) }}
                                         @if ($habit->best_time)
                                             • Waktu Terbaik: {{ $habit->best_time }}
                                         @endif
@@ -103,7 +103,7 @@
                                         @endphp
 
                                         @if ($todayLog && $todayLog->completed)
-                                            ✅ <span class="text-muted">Terakhir: {{ \Illuminate\Support\Carbon::parse($todayLog->updated_at)->format('d M Y H:i') }}</span>
+                                            ✅ <span class="text-muted">{{ \Illuminate\Support\Carbon::parse($todayLog->updated_at)->format('d M Y H:i') }}</span>
                                         @else
                                             ⏳ <span class="text-muted">Belum selesai</span>
                                         @endif

@@ -142,7 +142,10 @@
 @auth
     <nav class="navbar navbar-light bg-white border-bottom">
         <div class="container-fluid justify-content-between">
-            <span class="navbar-brand mb-0 h6">MyAI Coach</span>
+           <span class="navbar-brand mb-0 h6">
+              <img src="{{ asset('img.png') }}" alt="Logo" style="height: 30px;">
+
+           </span>
 
                {{--notification button--}}
                 <a href="#" class="text-decoration-none text-muted">

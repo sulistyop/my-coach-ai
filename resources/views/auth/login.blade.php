@@ -7,10 +7,11 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-0">
                     <div class="bg-primary text-white p-4 rounded-top">
+                        <img src="{{ asset('img.png') }}" alt="Logo" style="height: 30px;">
                         <h1 class="display-6 fw-bold">Mulai Sekarang</h1>
                         <p class="mb-0">Buat akun atau masuk untuk menjelajahi aplikasi kami</p>
                     </div>
-                    
+
                     <div class="p-4">
                         <div class="d-flex mb-4">
                             <div class="flex-grow-1">

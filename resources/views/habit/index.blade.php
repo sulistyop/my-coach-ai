@@ -31,7 +31,7 @@
                                 <div class="flex-shrink-1">
                                     <div class="fw-semibold text-truncate" style="max-width: 200px;">{{ $habit->name }}</div>
                                     <div class="text-muted small">
-                                        {{ ucfirst($habit->frequency) }}
+                                        {{ $habit->frequency == 'daily' ? 'Harian' : ucfirst($habit->frequency) }}
                                         @if ($habit->best_time)
                                             • Best Time: {{ $habit->best_time }}
                                         @endif
@@ -42,9 +42,9 @@
                                         @endphp
 
                                         @if ($todayLog && $todayLog->completed)
-                                            ✅ <span class="text-muted">Last: {{ \Illuminate\Support\Carbon::parse($todayLog->updated_at)->format('d M Y H:i') }}</span>
+                                            ✅ <span class="text-muted">{{ \Illuminate\Support\Carbon::parse($todayLog->updated_at)->format('d M Y H:i') }}</span>
                                         @else
-                                            ⏳ <span class="text-muted">Not completed yet</span>
+                                            ⏳ <span class="text-muted">Belum dikerjakan</span>
                                         @endif
                                     </div>
                                 </div>
