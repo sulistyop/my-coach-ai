@@ -33,59 +33,62 @@ class HomeController extends Controller
 			return redirect()->route('create-goals')->with('message', 'Please create a goal to get started.');
 		}
 		
-		
-		
-		
 		$today = now();
 		$startOfMonth = $today->copy()->startOfMonth();
 		$endOfMonth = $today->copy()->endOfMonth();
 		$habits = $user->habits;
-		$checkIns = $user->checkIns()->latest()->take(10)->get();
 		
-		// Get all check-in dates for this month
-		$checkInDates = $user->checkIns()
-			->whereBetween('date', [$startOfMonth, $endOfMonth])
-			->pluck('date')
-			->map(fn ($d) => Carbon::parse($d)->format('Y-m-d'))
-			->toArray();
+		// Get all user goals and habits
+		$goalIds = Goal::where('user_id', $user->id)->pluck('id');
+		$habitIds = Habit::whereIn('goal_id', $goalIds)->pluck('id');
+		$totalHabits = $habitIds->count();
 		
-		$isChekedInToday = $checkInDates && in_array($today->format('Y-m-d'), $checkInDates);
-			
-		// Other data
-		$streak = $this->calculateHabitStreak($user);
-		$checkInsThisWeek = $user->checkIns()
-			->whereBetween('date', [now()->startOfWeek(), now()->endOfWeek()])
-			->count();
-		$dailyMotivation = $isChekedInToday ? ($checkIns->first()->ai_response ?? 'Kerja bagus sudah check-in hari ini!') : 'Jangan lupa untuk check-in dan tetap pada jalur!';
-		
-		
-		return view('home', compact('checkInDates', 'streak', 'checkInsThisWeek', 'dailyMotivation', 'habits', 'checkIns', 'goals', 'isChekedInToday'));
-	}
-	
-	private function calculateHabitStreak($user)
-	{
-		$streak = 0;
-		
-		// Group check-ins by date (without time)
-		$checkIns = $user->checkIns()
-			->orderBy('date', 'desc')
+		// Get logs from the beginning of the week to today
+		$logs = HabitLog::whereIn('habit_id', $habitIds)
+			->whereBetween('date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])
 			->get()
-			->groupBy(function ($checkIn) {
-				return Carbon::make($checkIn->date)->toDateString(); // Group by date
-			});
+			->groupBy('date');
 		
-		$dates = $checkIns->keys(); // Get unique dates
+		$completedDates = [];
 		
-		foreach ($dates as $index => $date) {
-			$currentDate = Carbon::make($date); // Convert to Carbon instance
-			if ($index === 0 || $currentDate->diffInDays(Carbon::make($dates[$index - 1])) === 1) {
-				$streak++;
-			} else {
-				break;
+		// Calculate completion for each date
+		foreach ($logs as $date => $logList) {
+			$completedCount = $logList->unique('habit_id')->count();
+			if ($completedCount === $totalHabits) {
+				$completedDates[] = $date;
 			}
 		}
 		
-		return $streak;
+		// Calculate streak
+		$streak = 0;
+		$date = now()->copy()->subDay(); // Start checking from yesterday
+		
+		// Sort dates in descending order (newest first)
+		usort($completedDates, function ($a, $b) {
+			return strtotime($b) - strtotime($a);
+		});
+		
+		// Calculate consecutive days from most recent backwards
+		while (in_array($date->format('Y-m-d'), $completedDates)) {
+			$streak++;
+			$date->subDay();
+		}
+		
+		// If today is also completed, add 1 to streak
+		if (in_array(now()->format('Y-m-d'), $completedDates)) {
+			$streak++;
+		}
+		
+		$checkInsThisWeek = HabitLog::whereIn('habit_id', $habitIds)
+			->whereBetween('date', [now()->startOfWeek()->toDateString(), now()->endOfWeek()->toDateString()])
+			->get()
+			->unique('habit_id')
+			->count();
+		
+		
+		$dailyMotivation = $streak > 0 ? 'Kerja bagus sudah check-in hari ini!' : 'Jangan lupa untuk check-in dan tetap pada jalur!';
+		
+		return view('home', compact('streak', 'checkInsThisWeek', 'dailyMotivation', 'habits', 'goals'));
 	}
 	
 	public function streak(Request $request)
