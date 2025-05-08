@@ -14,11 +14,11 @@
 
     <!-- Step 1 -->
     <div id="step1">
-        <h4 class="fw-bold text-primary">Rekomendasi Goals Anda</h4>
+        <h4 class="fw-bold text-primary">Rekomendasi Kebiasaan Anda</h4>
         <p class="text-muted">
-            Berikut adalah rekomendasi goals berdasarkan input Anda: <strong>{{ $userPrompt }}</strong>
+            Berikut adalah rekomendasi kebiasaan berdasarkan input Anda: <strong>{{ $userPrompt }}</strong>
         </p>
-        <p class="text-muted mb-2">Pilih goals yang paling sesuai dengan kebutuhan Anda:</p>
+        <p class="text-muted mb-2">Pilih kebiasaan yang paling sesuai dengan kebutuhan Anda:</p>
 
         <!-- Loader -->
         <div id="loader" class="text-center my-4">
@@ -34,21 +34,21 @@
 
         <!-- Tombol Selanjutnya -->
         <div class="d-grid mt-4">
-            <button id="nextButton" class="btn btn-primary fw-bold py-2">Selanjutnya</button>
+            <button id="nextButton" class="btn btn-primary fw-bold py-2">Pilih</button>
         </div>
     </div>
 
     <!-- Step 2 -->
     <div id="step2" style="display: none;">
-        <h4 class="fw-bold text-primary">Tambahkan Goals Anda</h4>
-        <p class="text-muted mb-2">Masukkan habit dan strategi Anda sendiri:</p>
+        <h4 class="fw-bold text-primary">Tambahkan Kebiasaan</h4>
+        <p class="text-muted mb-2">Masukkan Kebiasaan dan strategi Anda sendiri:</p>
 
         <!-- Form input goals dalam format tabel -->
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th style="width: 80%">Habit & Strategi</th>
+                        <th style="width: 80%">Kebiasaan & Strategi</th>
                         <th style="width: 20%">Aksi</th>
                     </tr>
                 </thead>
@@ -56,7 +56,7 @@
                     <tr class="goal-row">
                         <td>
                             <div class="mb-2">
-                                <input type="text" class="form-control" placeholder="Habit" name="habit[]">
+                                <input type="text" class="form-control" placeholder="Kebiasaan" name="habit[]">
                             </div>
                             <div>
                                 <input type="text" class="form-control" placeholder="Strategi" name="strategy[]">
@@ -193,7 +193,7 @@
             newRow.innerHTML = `
                 <td>
                     <div class="mb-2">
-                        <input type="text" class="form-control" placeholder="Habit" name="habit[]">
+                        <input type="text" class="form-control" placeholder="Kebiasaan" name="habit[]">
                     </div>
                     <div>
                         <input type="text" class="form-control" placeholder="Strategi" name="strategy[]">
