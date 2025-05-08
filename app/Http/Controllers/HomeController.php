@@ -90,6 +90,7 @@ class HomeController extends Controller
 	
 	public function streak(Request $request)
 	{
+		Carbon::setLocale('id');
 		$user = Auth::user();
 		
 		$month = $request->input('month', now()->month);

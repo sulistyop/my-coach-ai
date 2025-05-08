@@ -90,19 +90,25 @@
     </style>
 
     <div class="text-center mb-3">
-        <a href="{{ route('streak', ['month' => $prevMonth->month, 'year' => $prevMonth->year]) }}" class="btn btn-outline-secondary btn-sm">← {{ $prevMonth->format('F Y') }}</a>
-        <strong class="mx-3">{{ $currentDate->format('F Y') }}</strong>
-        <a href="{{ route('streak', ['month' => $nextMonth->month, 'year' => $nextMonth->year]) }}" class="btn btn-outline-secondary btn-sm">{{ $nextMonth->format('F Y') }} →</a>
+        <a href="{{ route('streak', ['month' => $prevMonth->month, 'year' => $prevMonth->year]) }}" class="btn btn-outline-secondary btn-sm">← {{ \Carbon\Carbon::parse($prevMonth)->translatedFormat('F Y') }}</a>
+        <strong class="mx-3">{{ \Carbon\Carbon::parse($currentDate)->translatedFormat('F Y') }}</strong>
+        <a href="{{ route('streak', ['month' => $nextMonth->month, 'year' => $nextMonth->year]) }}" class="btn btn-outline-secondary btn-sm">{{ \Carbon\Carbon::parse($nextMonth)->translatedFormat('F Y') }} →</a>
     </div>
 
     <div class="streak-header">
-        <h4 class="fw-bold mb-0">🔥 {{ $streak }} Day Streak!</h4>
-        <small>Keep up the great work!</small>
+        <h4 class="fw-bold mb-0">🔥 {{ $streak }} Rekor Harian</h4>
+        <small>
+            @if ($streak > 1)
+                Anda sudah melakukan check-in selama {{ $streak }} hari berturut-turut!
+            @else
+                Anda sudah melakukan check-in selama {{ $streak }} hari!
+            @endif
+        </small>
     </div>
 
     <div class="calendar shadow">
         <div class="calendar-row">
-            @foreach([ 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa','Su'] as $day)
+            @foreach(['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'] as $day)
                 <div class="day-label">{{ $day }}</div>
             @endforeach
         </div>
@@ -150,7 +156,7 @@
     </div>
 
     <div class="text-center mt-4">
-        <a href="{{ route('home') }}" class="btn btn-outline-warning">⬅ Back to Home</a>
+        <a href="{{ route('home') }}" class="btn btn-outline-warning">⬅ Kembali</a>
     </div>
 @endsection
 

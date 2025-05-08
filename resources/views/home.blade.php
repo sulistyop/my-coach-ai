@@ -24,8 +24,8 @@
     <!-- Streak Kebiasaan -->
     <div class="col-6 col-md-6 mb-3 d-flex">
         <div class="card shadow-sm h-100 w-100 border-0 rounded-4">
-            <div class="card-header bg-primary text-white py-2 small rounded-top-4 fw-semibold">
-                🔥 Streak Kamu
+            <div class="card-header bg-primary text-white py-2 small rounded-top-4 fw-semibold text-center">
+                 <span style="font-size: 0.8em">🔥 Streak Kamu</span>
             </div>
             <div class="card-body text-center py-4">
                 <h1 class="text-primary fw-bold display-5">{{ $streak }} 🔥</h1>
@@ -39,7 +39,7 @@
     <div class="col-6 col-md-6 mb-3 d-flex">
         <div class="card shadow-sm h-100 w-100 border-0 rounded-4">
             <div class="card-header bg-primary text-white py-2 small rounded-top-4 fw-semibold">
-                📊 Statistik Mingguan
+                <span style="font-size: 0.8em">📊 Statistik Mingguan </span>
             </div>
             <div class="card-body text-center py-4">
                 <h1 class="text-primary fw-bold display-5">{{ $checkInsThisWeek }} ✅</h1>
@@ -294,7 +294,7 @@
 });
 
     </script>
-</div>
+
 @endsection
 
 <script>
